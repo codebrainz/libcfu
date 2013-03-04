@@ -10,11 +10,10 @@ else
 AM_CFLAGS = -Wall -W $(CFU_CONFIG_DEFINES)
 endif
 
-include_HEADERS = $(top_srcdir)/include/cfu.h $(top_srcdir)/include/cfuhash.h \
-    $(top_srcdir)/include/cfutime.h $(top_srcdir)/include/cfustring.h \
-    $(top_srcdir)/include/cfulist.h $(top_srcdir)/include/cfuconf.h \
-    $(top_srcdir)/include/cfuthread_queue.h $(top_srcdir)/include/cfutypes.h \
-    $(top_srcdir)/include/cfuopt.h
+include_HEADERS = $(top_srcdir)/src/cfu.h $(top_srcdir)/src/cfuhash.h \
+    $(top_srcdir)/src/cfutime.h $(top_srcdir)/src/cfustring.h \
+    $(top_srcdir)/src/cfulist.h $(top_srcdir)/src/cfuconf.h \
+    $(top_srcdir)/src/cfuthread_queue.h $(top_srcdir)/src/cfuopt.h
 
 # libcfu_a_LDFLAGS = -lpthread
 INCLUDES = -I$(top_srcdir)/include
