@@ -6,10 +6,10 @@ AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_SRCDIR([src/cfu.c])
 AM_INIT_AUTOMAKE([foreign -Wall silent-rules dist-bzip2])
 AM_SILENT_RULES([yes])
+LT_INIT
 
 AC_PROG_CC
 AM_PROG_CC_C_O
-AC_PROG_RANLIB
 
 # Checks for header files.
 AC_HEADER_STDC
