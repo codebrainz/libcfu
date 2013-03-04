@@ -1,42 +1,39 @@
-/* Creation date: 2005-06-26 19:59:10
- * Authors: Don
- * Change log:
+/*
+ * cfustring.c - This file is part of the libcfu library
+ *
+ * Copyright (c) 2005 Don Owens. All rights reserved.
+ *
+ * This code is released under the BSD license:
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   * Redistributions in binary form must reproduce the above
+ *     copyright notice, this list of conditions and the following
+ *     disclaimer in the documentation and/or other materials provided
+ *     with the distribution.
+ *
+ *   * Neither the name of the author nor the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-/* Copyright (c) 2005 Don Owens
-   All rights reserved.
-
-   This code is released under the BSD license:
-
-   Redistribution and use in source and binary forms, with or without
-   modification, are permitted provided that the following conditions
-   are met:
-
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-
-     * Redistributions in binary form must reproduce the above
-       copyright notice, this list of conditions and the following
-       disclaimer in the documentation and/or other materials provided
-       with the distribution.
-
-     * Neither the name of the author nor the names of its
-       contributors may be used to endorse or promote products derived
-       from this software without specific prior written permission.
-
-   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-   FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-   COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-   INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-   HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-   OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 
 #include "cfu.h"
 
@@ -167,7 +164,7 @@ extern char *
 cfustring_get_buffer_copy(cfustring_t *cfu_str) {
 	char *buffer = NULL;
 	if (!cfu_str->str) return NULL;
-	
+
 	buffer = (char *)calloc(cfu_str->used_size, 1);
 	memcpy(buffer, cfu_str->str, cfu_str->used_size);
 	return buffer;
@@ -222,7 +219,7 @@ _check_sep(char **start, char **seps, size_t num_seps, char **sep_chk_ptrs, int 
 		}
 		return NULL;
 	}
-		
+
 	for (end = *start; *end; end++) {
 		for (i = 0; i < num_seps; i++) {
 			if (*sep_chk_ptrs[i] == *end) {
@@ -287,7 +284,7 @@ __cfustring_split_to_raw(cfustring_t *cfu_str, size_t *num_strings, size_t num_s
 		free(sep_array);
 		return NULL;
 	}
-	
+
 	while ( (next_str = _check_sep(&end, sep_array, num_seps, sep_chk_ptrs, last)) ) {
 		if (used_ret_strings == max_ret_strings) {
 			/* allocate more space */
@@ -377,7 +374,7 @@ cfustring_sprintf_c_str(const char *fmt, ...) {
 	char *str = NULL;
 	cfustring_t *cfu_str = cfustring_new();
 	va_start(ap, fmt);
-	cfustring_vsprintf(cfu_str, fmt, ap);	
+	cfustring_vsprintf(cfu_str, fmt, ap);
 	va_end(ap);
 
 	str = cfustring_get_buffer_copy(cfu_str);
@@ -569,7 +566,7 @@ cfustring_vsprintf(cfustring_t *cfu_str, const char *fmt_in, va_list ap) {
 				start = end = fmt;
 				continue;
 			}
-			
+
 		} else {
 			byte_count++;
 			end = fmt;
@@ -618,5 +615,5 @@ cfustring_c_str_split(const char *c_str, size_t *num_strings, size_t limit, ...)
 
 	cfustring_destroy(cfu_str);
 
-	return rv;	
+	return rv;
 }

@@ -1,43 +1,39 @@
-/* Creation date: 2005-07-08 22:23:31
- * Authors: Don
- * Change log:
+/*
+ * cfuconf.c - This file is part of the libcfu library
+ *
+ * Copyright (c) 2005 Don Owens. All rights reserved.
+ *
+ * This code is released under the BSD license:
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   * Redistributions in binary form must reproduce the above
+ *     copyright notice, this list of conditions and the following
+ *     disclaimer in the documentation and/or other materials provided
+ *     with the distribution.
+ *
+ *   * Neither the name of the author nor the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-
-/* Copyright (c) 2005 Don Owens
-   All rights reserved.
-
-   This code is released under the BSD license:
-
-   Redistribution and use in source and binary forms, with or without
-   modification, are permitted provided that the following conditions
-   are met:
-
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-
-     * Redistributions in binary form must reproduce the above
-       copyright notice, this list of conditions and the following
-       disclaimer in the documentation and/or other materials provided
-       with the distribution.
-
-     * Neither the name of the author nor the names of its
-       contributors may be used to endorse or promote products derived
-       from this software without specific prior written permission.
-
-   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-   FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-   COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-   INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-   HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-   OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 
 #include "cfu.h"
 #include "cfuconf.h"
@@ -68,7 +64,7 @@ cfuconf_new() {
 	conf->type = libcfu_t_conf;
 	conf->containers = cfuhash_new_with_flags(CFUHASH_IGNORE_CASE);
 	conf->directives = cfuhash_new_with_flags(CFUHASH_IGNORE_CASE);
-	
+
 	return conf;
 }
 
@@ -106,7 +102,7 @@ _directive_free_val_list_fn(void *data) {
 	cfulist_t *val_list = (cfulist_t *)data;
 	assert(cfu_is_list(val_list));
 
-	cfulist_destroy_with_free_fn(val_list, _free_val_fn);	
+	cfulist_destroy_with_free_fn(val_list, _free_val_fn);
 }
 
 static void
@@ -153,7 +149,7 @@ _get_directive_last_val_list(cfuconf_t *conf, char *directive, cfulist_t **val_l
 	if (!conf) {
 		return -1;
 	}
-	
+
 	directives = cfuconf_get_directives(conf);
 	if (!directives) {
 		return -1;
@@ -168,7 +164,7 @@ _get_directive_last_val_list(cfuconf_t *conf, char *directive, cfulist_t **val_l
 			return 0;
 		}
 	}
-	
+
 	return -1;
 
 }
@@ -186,7 +182,7 @@ cfuconf_get_directive_one_arg(cfuconf_t *conf, char *directive, char **rvalue) {
 	} else {
 		return -1;
 	}
-	
+
 	return -1;
 }
 
@@ -218,9 +214,9 @@ cfuconf_get_directive_n_args(cfuconf_t *conf, char *directive, size_t n, ...) {
 			}
 		}
 		va_end(ap);
-		
+
 		if (i == n) rv = 0;
-		
+
 	}
 
 	return rv;
@@ -261,7 +257,7 @@ static cfulist_t *
 _slurp_file_from_fp(FILE *fp) {
 	cfulist_t *lines = cfulist_new();
 	char *buf = NULL;
-	
+
 	while ( (buf = cfuconf_get_line(fp)) ) {
 		cfulist_push(lines, buf);
 	}
@@ -302,7 +298,7 @@ _get_name(char **buf) {
 	while (*ptr && *ptr != '>' && !_is_whitespace(*ptr)) ptr++;
 	name = cfustring_dup_c_str_n(name, ptr - name);
 	*buf = ptr;
-	
+
 	return name;
 }
 
@@ -320,7 +316,7 @@ _get_value(char **buf) {
 	while (*ptr && *ptr != '>' && !_is_whitespace(*ptr)) ptr++;
 	value = cfustring_dup_c_str_n(value, ptr - value);
 	*buf = ptr;
-	
+
 	return value;
 }
 
@@ -332,7 +328,7 @@ _dup_c_str_n_drop_escape(const char *str, size_t n, char escape) {
 	char *ns_ptr = NULL;
 	char last_char = '\000';
 	char *end = (char *)str + n;
-	
+
 	if (n == 0) return NULL;
 
 	ptr = (char *)str;
@@ -388,7 +384,7 @@ _get_quoted_value(char **buf, char quote) {
 	}
 	if (!*ptr) return NULL;
 	*buf = ptr;
-	
+
 	if (found_escape) {
 		value = _dup_c_str_n_drop_escape(value, ptr - value, '\\');
 	} else {
@@ -418,7 +414,7 @@ _get_next_value(char **buf) {
 	}
 
 	*buf = ptr;
-	
+
 	return value;
 }
 
@@ -439,7 +435,7 @@ _get_long_value(char **buf) {
 
 	value = cfustring_dup_c_str_n(value, ptr - value - 1);
 	*buf = ptr;
-	
+
 	return value;
 }
 #endif
@@ -469,7 +465,7 @@ _cfuconf_parse_list(cfulist_t *lines, char **error) {
 			free(line);
 			continue;
 		}
-		
+
 		if (*ptr == '<') { /* opening or closing container tag */
 			ptr++;
 			if (*ptr == '/') {
@@ -536,7 +532,7 @@ _cfuconf_parse_list(cfulist_t *lines, char **error) {
 					this_hash = cfuhash_new_with_flags(CFUHASH_IGNORE_CASE);
 					cfuhash_put(cur_conf->containers, name, (void *)this_hash);
 				}
-				
+
 				if ( !(new_conf = cfuhash_get(this_hash, value)) ) {
 					new_conf = cfuconf_new();
 					new_conf->container_type = name;
@@ -546,7 +542,7 @@ _cfuconf_parse_list(cfulist_t *lines, char **error) {
 					free(name); name = NULL;
 					free(value); value = NULL;
 				}
-				
+
 				cfulist_push(stack, (void *)cur_conf);
 				cur_conf = new_conf;
 
@@ -568,10 +564,10 @@ _cfuconf_parse_list(cfulist_t *lines, char **error) {
 				cfuhash_put(cur_conf->directives, name, (void *)list);
 			}
 			free(name); name = NULL;
-			
+
 			val_list = cfulist_new();
 			cfulist_enqueue(list, (void *)val_list);
-			
+
 			/* fprintf(stderr, "====> got '%s' =>", name); */
 			while ( (value = _get_next_value(&ptr) ) ) {
 				/* fprintf(stderr, " '%s'", value); */
@@ -608,7 +604,7 @@ cfuconf_parse_file(char *file_path, cfuconf_t **ret_conf, char **error) {
 	lines = _slurp_file_from_fp(fp);
 	fclose(fp); fp = NULL;
 	if (!lines) return -1;
-	
+
 	conf = _cfuconf_parse_list(lines, error);
 	cfulist_destroy(lines);
 	*ret_conf = conf;
@@ -628,11 +624,11 @@ cfuconf_parse_buffer(char *buffer, cfuconf_t **ret_conf, char **error) {
 
 	strings = cfustring_c_str_split(buffer, &num_strings, 0, "\r\n", "\n", NULL);
 	if (!strings) return -1;
-	
+
 	for (i = 0; i < num_strings; i++) {
 		cfulist_push_string(lines, strings[i]);
 	}
-	
+
 	conf = _cfuconf_parse_list(lines, error);
 	cfulist_destroy(lines);
 	*ret_conf = conf;
@@ -640,7 +636,7 @@ cfuconf_parse_buffer(char *buffer, cfuconf_t **ret_conf, char **error) {
 	free(strings);
 
 	if (conf) return 0;
-	return -1;	
+	return -1;
 }
 
 
@@ -699,7 +695,7 @@ print_container(cfuhash_table_t *conf_hash, size_t depth) {
 				container = cfuhash_get(ht, container_name);
 				print_container(container, depth + 1);
 			}
-			
+
 			free(container_names);
 		}
 		free(keys[i]);
@@ -752,7 +748,7 @@ print_directive_list_foreach_fn(void *data, size_t data_size, void *arg) {
 	cfulist_t *val_list = (cfulist_t *)data;
 	directive_foreach_ds *ds = (directive_foreach_ds *)arg;
 	char *str = NULL;
-	
+
 	data_size = data_size;
 	if (!val_list) return 0;
 	assert(cfu_is_list(val_list));
@@ -771,14 +767,14 @@ print_conf_foreach_directive(void *name, size_t key_size, void *data, size_t dat
 
 	key_size = key_size;
 	data_size = data_size;
-	
+
 	new_ds->fp = ds->fp;
 	new_ds->depth = ds->depth;
 	new_ds->name = name;
-	
+
 	assert(cfu_is_list(this_directive_list));
 	cfulist_foreach(this_directive_list, print_directive_list_foreach_fn, new_ds);
-	
+
 	free(new_ds);
 	return 0;
 }

@@ -1,42 +1,39 @@
-/* Creation date: 2005-06-24 21:22:40
- * Authors: Don
- * Change log:
+/*
+ * cfuhash.c - This file is part of the libcfu library
+ *
+ * Copyright (c) 2005 Don Owens. All rights reserved.
+ *
+ * This code is released under the BSD license:
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   * Redistributions in binary form must reproduce the above
+ *     copyright notice, this list of conditions and the following
+ *     disclaimer in the documentation and/or other materials provided
+ *     with the distribution.
+ *
+ *   * Neither the name of the author nor the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-/* Copyright (c) 2005 Don Owens
-   All rights reserved.
-
-   This code is released under the BSD license:
-
-   Redistribution and use in source and binary forms, with or without
-   modification, are permitted provided that the following conditions
-   are met:
-
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-
-     * Redistributions in binary form must reproduce the above
-       copyright notice, this list of conditions and the following
-       disclaimer in the documentation and/or other materials provided
-       with the distribution.
-
-     * Neither the name of the author nor the names of its
-       contributors may be used to endorse or promote products derived
-       from this software without specific prior written permission.
-
-   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-   FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-   COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-   INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-   HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-   OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -155,7 +152,7 @@ hash_value(cfuhash_table_t *ht, const void *key, size_t key_size, size_t num_buc
 static cfuhash_table_t *
 _cfuhash_new(size_t size, u_int32_t flags) {
 	cfuhash_table_t *ht;
-	
+
 	size = hash_size(size);
 	ht = (cfuhash_table_t *)malloc(sizeof(cfuhash_table_t));
 	memset(ht, '\000', sizeof(cfuhash_table_t));
@@ -169,11 +166,11 @@ _cfuhash_new(size_t size, u_int32_t flags) {
 #ifdef HAVE_PTHREAD_H
 	pthread_mutex_init(&ht->mutex, NULL);
 #endif
-	
+
 	ht->hash_func = hash_func;
 	ht->high = 0.75;
 	ht->low = 0.25;
-	
+
 	return ht;
 }
 
@@ -231,7 +228,7 @@ cfuhash_merge(cfuhash_table_t *ht1, cfuhash_table_t *ht2, u_int32_t flags) {
 	new_ht = _cfuhash_new(cfuhash_num_entries(ht1) + cfuhash_num_entries(ht2), flags);
 	if (ht1) cfuhash_copy(ht1, new_ht);
 	if (ht2) cfuhash_copy(ht2, new_ht);
-	
+
 	return new_ht;
 }
 
@@ -274,7 +271,7 @@ extern int
 cfuhash_set_hash_function(cfuhash_table_t *ht, cfuhash_function_t hf) {
 	/* can't allow changing the hash function if the hash already contains entries */
 	if (ht->entries) return -1;
-	
+
 	ht->hash_func = hf ? hf : hash_func;
 	return 0;
 }
@@ -368,7 +365,7 @@ cfuhash_get_data(cfuhash_table_t *ht, const void *key, size_t key_size, void **r
 	if (key_size == (size_t)(-1)) {
 		if (key) key_size = strlen(key) + 1;
 		else key_size = 0;
-	   
+
 	}
 
 	lock_hash(ht);
@@ -386,7 +383,7 @@ cfuhash_get_data(cfuhash_table_t *ht, const void *key, size_t key_size, void **r
 	}
 
 	unlock_hash(ht);
-	
+
 	return (hr ? 1 : 0);
 }
 
@@ -397,7 +394,7 @@ extern void *
 cfuhash_get(cfuhash_table_t *ht, const char *key) {
 	void *r = NULL;
 	int rv = 0;
-	
+
 	rv = cfuhash_get_data(ht, (const void *)key, -1, &r, NULL);
 	if (rv) return r; /* found */
 	return NULL;
@@ -430,7 +427,7 @@ cfuhash_put_data(cfuhash_table_t *ht, const void *key, size_t key_size, void *da
 	u_int hv = 0;
 	cfuhash_entry *he = NULL;
 	int added_an_entry = 0;
-	
+
 	if (key_size == (size_t)(-1)) {
 		if (key) key_size = strlen(key) + 1;
 		else key_size = 0;
@@ -438,7 +435,7 @@ cfuhash_put_data(cfuhash_table_t *ht, const void *key, size_t key_size, void *da
 	if (data_size == (size_t)(-1)) {
 		if (data) data_size = strlen(data) + 1;
 		else data_size = 0;
-		
+
 	}
 
 	lock_hash(ht);
@@ -461,7 +458,7 @@ cfuhash_put_data(cfuhash_table_t *ht, const void *key, size_t key_size, void *da
 		added_an_entry = 1;
 	}
 
-	unlock_hash(ht);	
+	unlock_hash(ht);
 
 	if (added_an_entry && !(ht->flags & CFUHASH_FROZEN)) {
 		if ( (float)ht->entries/(float)ht->num_buckets > ht->high ) cfuhash_rehash(ht);
@@ -579,7 +576,7 @@ cfuhash_keys_data(cfuhash_table_t *ht, size_t *num_keys, size_t **key_sizes, int
 
 	if (key_sizes) key_lengths = (size_t *)calloc(ht->entries, sizeof(size_t));
 	keys = (void **)calloc(ht->entries, sizeof(void *));
-	
+
 	for (bucket = 0; bucket < ht->num_buckets; bucket++) {
 		if ( (he = ht->buckets[bucket]) ) {
 			for (; he; he = he->next, entry_index++) {
@@ -624,7 +621,7 @@ cfuhash_each_data(cfuhash_table_t *ht, void **key, size_t *key_size, void **data
 extern int
 cfuhash_next_data(cfuhash_table_t *ht, void **key, size_t *key_size, void **data,
 	size_t *data_size) {
-	
+
 	if (ht->each_chain_entry && ht->each_chain_entry->next) {
 		ht->each_chain_entry = ht->each_chain_entry->next;
 	} else {
@@ -672,7 +669,7 @@ cfuhash_foreach_remove(cfuhash_table_t *ht, cfuhash_remove_fn_t r_fn, cfuhash_fr
 	size_t num_removed = 0;
 	cfuhash_entry **buckets = NULL;
 	size_t num_buckets = 0;
-	
+
 	if (!ht) return 0;
 
 	lock_hash(ht);
@@ -716,7 +713,7 @@ cfuhash_foreach(cfuhash_table_t *ht, cfuhash_foreach_fn_t fe_fn, void *arg) {
 	cfuhash_entry **buckets = NULL;
 	size_t num_buckets = 0;
 	int rv = 0;
-	
+
 	if (!ht) return 0;
 
 	lock_hash(ht);
@@ -803,7 +800,7 @@ cfuhash_pretty_print(cfuhash_table_t *ht, FILE *fp) {
 	parg.count = 0;
 
 	rv += fprintf(fp, "{\n");
-	
+
 	cfuhash_foreach(ht, _pretty_print_foreach, (void *)&parg);
 	rv += parg.count;
 

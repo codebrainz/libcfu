@@ -1,6 +1,38 @@
-/* Creation date: 2005-09-04 12:57:25
- * Authors: Don
- * Change log:
+/*
+ * cfuopt.c - This file is part of the libcfu library
+ *
+ * Copyright (c) 2005 Don Owens. All rights reserved.
+ *
+ * This code is released under the BSD license:
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   * Redistributions in binary form must reproduce the above
+ *     copyright notice, this list of conditions and the following
+ *     disclaimer in the documentation and/or other materials provided
+ *     with the distribution.
+ *
+ *   * Neither the name of the author nor the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "cfu.h"
@@ -160,7 +192,7 @@ _add_to_option_map(void *data, size_t data_size, void *arg) {
 	data_size = data_size;
 
 	cfuhash_put(es->context->option_map, (char *)data, (void *)es->entry);
-	
+
 	return 0;
 }
 
@@ -183,7 +215,7 @@ cfuopt_add_entry(cfuopt_t *context, const char *opt_str, void *arg_data,
 	entry->param_names = param_list;
 
 	cfulist_push(context->option_list, (void *)entry);
-	
+
 	entry_struct.entry = entry;
 	entry_struct.context = context;
 
@@ -204,7 +236,7 @@ check_arg(const char *arg, int *is_long, int *is_short, int *is_data, int *is_en
 	*value = NULL;
 
 	if (!ptr || !*ptr) return;
-	
+
 	if (*ptr != '-') {
 		*is_data = 1;
 		*parsed_arg = cfustring_dup_c_str(ptr);
@@ -295,7 +327,7 @@ cfuopt_parse(cfuopt_t *context, int *argc, char ***argv, char **error) {
 	if (*argc < 1) return;
 
 	context->progname = cfustring_dup_c_str(args[0]);
-	
+
 	if (*argc < 2) return;
 
 	for (i = 1; i < *argc; i++) {
@@ -305,7 +337,7 @@ cfuopt_parse(cfuopt_t *context, int *argc, char ***argv, char **error) {
 
 		if (parsed_arg) free(parsed_arg);
 		parsed_arg = NULL;
-		
+
 		check_arg(cur_arg, &is_long_opt, &is_short_opt, &is_data, &is_end_of_opt, &parsed_arg,
 				  &value);
 		if (is_long_opt || is_short_opt) {
@@ -367,7 +399,7 @@ cfuopt_parse(cfuopt_t *context, int *argc, char ***argv, char **error) {
 		  default:
 			  break;
 		}
-		
+
 	}
 
 	extra_count = cfulist_num_entries(context->extra);
@@ -435,7 +467,7 @@ _cfuopt_pretty_print_foreach(void *key, size_t key_size, void *data, size_t data
 	arg = arg;
 	ARG_TYPE_TO_STR(list_entry->arg_type, str);
 	printf("%s=%p (%s - %s) => %s, \"%s\"\n", name, (void *)list_entry, (list_entry->required ? "required" : "optional"), str, list_entry->description, list_entry->arg_description);
-	
+
 	return 0;
 }
 
@@ -506,7 +538,7 @@ _find_foreach_fn(void *data, size_t data_size, void *arg) {
 	desc = cfulist_join(param_full_list, ", ");
 
 	data_size = data_size;
-	
+
 	cfulist_destroy_with_free_fn(param_full_list, _simple_list_free_fn);
 
 	desc_ds->desc = desc;
@@ -527,7 +559,7 @@ _find_longest_help_desc(cfuopt_t *context, cfulist_t **desc_list) {
 
 	cfulist_foreach(context->option_list, _find_foreach_fn, (void *)&ds);
 	*desc_list = ds.desc_list;
-	
+
 	return ds.max_size;
 }
 
@@ -548,7 +580,7 @@ _get_help_lines(void *data, size_t data_size, void *arg) {
 	data_size = data_size;
 
 	left_col = desc_ds->desc;
-	
+
 	if (!left_col) return 0;
 
 	desc = desc_ds->entry->description;
@@ -558,7 +590,7 @@ _get_help_lines(void *data, size_t data_size, void *arg) {
 	cfulist_push(ds->list, (void *)line);
 
 	return 0;
-	
+
 }
 
 static void
@@ -577,7 +609,7 @@ cfuopt_get_help_str(cfuopt_t *context) {
 	char *help_str = NULL;
 
 	max_width = _find_longest_help_desc(context, &desc_list);
-	
+
 	fmt = cfustring_sprintf_c_str(" %%-%us  %%s\n", max_width);
 	ds.fmt = fmt;
 	ds.list = cfulist_new();
