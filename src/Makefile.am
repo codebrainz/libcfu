@@ -1,27 +1,18 @@
 lib_LIBRARIES = libcfu.a
-libcfu_a_SOURCES = cfuhash.c cfutime.c cfustring.c cfulist.c cfuconf.c cfuthread_queue.c cfu.c cfuopt.c
+
+libcfu_a_SOURCES = cfuhash.c cfutime.c cfustring.c cfulist.c cfuconf.c \
+                   cfuthread_queue.c cfu.c cfuopt.c
+
+include_HEADERS = cfu.h cfuhash.h cfutime.h cfustring.h cfulist.h \
+                  cfuconf.h cfuthread_queue.h cfuopt.h
+
 bin_PROGRAMS = libcfu-config
 
-CFU_CONFIG_DEFINES = -DCFU_LIBDIR="\"@libdir@\"" -DCFU_LIBS="\"@LIBS@\"" -DCFU_INCLUDEDIR="\"@includedir@\"" -DCFU_PREFIX="\"@prefix@\""  -DCFU_EXEC_PREFIX="\"@exec_prefix@\""
-
-if DEBUG
-AM_CFLAGS = -Wall -W -DCFU_DEBUG=1 $(CFU_CONFIG_DEFINES)
-else
-AM_CFLAGS = -Wall -W $(CFU_CONFIG_DEFINES)
-endif
-
-include_HEADERS = $(top_srcdir)/src/cfu.h $(top_srcdir)/src/cfuhash.h \
-    $(top_srcdir)/src/cfutime.h $(top_srcdir)/src/cfustring.h \
-    $(top_srcdir)/src/cfulist.h $(top_srcdir)/src/cfuconf.h \
-    $(top_srcdir)/src/cfuthread_queue.h $(top_srcdir)/src/cfuopt.h
-
-# libcfu_a_LDFLAGS = -lpthread
-INCLUDES = -I$(top_srcdir)/include
-
-default: libcfu.a libcfu-config
-
-libcfu-config.o: libcfu-config.c
-
-libcfu-config: libcfu.a libcfu-config.o
-	$(CC) $(CFLAGS) -o libcfu-config libcfu-config.o libcfu.a -pthread
-
+# TODO: provide a pkg-config .pc file instead
+libcfu_config_SOURCES = libcfu-config.c
+libcfu_config_CFLAGS = -DCFU_LIBDIR="\"@libdir@\"" \
+                       -DCFU_LIBS="\"@LIBS@\"" \
+                       -DCFU_INCLUDEDIR="\"@includedir@\"" \
+                       -DCFU_PREFIX="\"@prefix@\"" \
+                       -DCFU_EXEC_PREFIX="\"@exec_prefix@\""
+libcfu_config_LDADD = libcfu.a
