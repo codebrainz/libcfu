@@ -876,12 +876,12 @@ cfuhash_bencode_strings(cfuhash_table_t *ht) {
 	for (i = 0; i < num_keys; i++) {
 		char *val = NULL;
 
-		snprintf(len_str, 32, "%d:", (keys[i] ? strlen(keys[i]) : 0));
+		snprintf(len_str, 32, "%lu:", (keys[i] ? strlen(keys[i]) : 0));
 		cfustring_append(bencoded, len_str);
 		cfustring_append(bencoded, keys[i]);
 
 		val = (char *)cfuhash_get(ht, keys[i]);
-		snprintf(len_str, 32, "%d:", (val ? strlen(val) : 0));
+		snprintf(len_str, 32, "%lu:", (val ? strlen(val) : 0));
 		cfustring_append(bencoded, len_str);
 		cfustring_append(bencoded, val);
 
