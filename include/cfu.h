@@ -42,7 +42,6 @@
 #define _LIBCFU_H_
 
 #include <stdio.h>
-#include <cfutypes.h>
 
 #ifdef __cplusplus
 #define CFU_BEGIN_DECLS extern "C" {
@@ -62,7 +61,7 @@ CFU_BEGIN_DECLS
 #define _THREAD_SAFE 1
 #endif
 
-#define LIBCFU_VERSION "0.03"
+#define LIBCFU_VERSION "0.04"
 
 typedef enum { libcfu_t_none = 0, libcfu_t_hash_table, libcfu_t_list, libcfu_t_string,
 			   libcfu_t_time, libcfu_t_conf } libcfu_type;

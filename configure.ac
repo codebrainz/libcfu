@@ -53,8 +53,6 @@ AC_CONFIG_FILES([
   src/Makefile
   examples/Makefile
   doc/Makefile
-  include/cfutypes.h
-  include/cfu.h
 ])
 
 AC_OUTPUT
