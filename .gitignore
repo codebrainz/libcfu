@@ -1,0 +1,17 @@
+# Built files
+*.[ao]
+*.so
+*.lib
+*.dll
+*.dylib
+
+# Autotools cruft
+Makefile
+Makefile.in
+/INSTALL
+/aclocal.m4
+/autom4te.cache/
+/configure
+/depcomp
+/install-sh
+/missing

@@ -1,26 +1,26 @@
 AC_INIT(libcfu, 0.03)
 
-AM_INIT_AUTOMAKE([dist-bzip2])
+AM_INIT_AUTOMAKE([foreign dist-bzip2])
 
 # AC_CONFIG_HEADERS(config.h)
 
-LIBCFU_CHECK_TYPE(u_int, unsigned int)
-AC_SUBST(LIBCFU_TYPE_u_int)
+#LIBCFU_CHECK_TYPE(u_int, unsigned int)
+#AC_SUBST(LIBCFU_TYPE_u_int)
 
 AC_PROG_CC
 AC_PROG_RANLIB
 
-dnl Check for pthread support
-SAVECFLAGS="$CFLAGS"
-SAVELIBS="$LIBS"
-CFLAGS="-pthread $CFLAGS"
-LIBS="-pthread $LIBS"
-AC_CHECK_FUNC(pthread_mutex_init,,
-    CFLAGS="$SAVECFLAGS"
-    LIBS="$SAVELIBS"
-    AC_CHECK_LIB(pthread, pthread_mutex_init,,
-        AC_CHECK_LIB(pthreads, pthread_mutex_init,,
-            AC_MSG_ERROR([No pthreads support found.]))))
+#dnl Check for pthread support
+#SAVECFLAGS="$CFLAGS"
+#SAVELIBS="$LIBS"
+#CFLAGS="-pthread $CFLAGS"
+#LIBS="-pthread $LIBS"
+#AC_CHECK_FUNC(pthread_mutex_init,,
+    #CFLAGS="$SAVECFLAGS"
+    #LIBS="$SAVELIBS"
+    #AC_CHECK_LIB(pthread, pthread_mutex_init,,
+        #AC_CHECK_LIB(pthreads, pthread_mutex_init,,
+            #AC_MSG_ERROR([No pthreads support found.]))))
 
 # Checks for header files.
 AC_HEADER_STDC
