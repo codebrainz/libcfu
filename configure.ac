@@ -1,59 +1,60 @@
-AC_INIT(libcfu, 0.03)
-
-AM_INIT_AUTOMAKE([foreign dist-bzip2])
-
-# AC_CONFIG_HEADERS(config.h)
-
-#LIBCFU_CHECK_TYPE(u_int, unsigned int)
-#AC_SUBST(LIBCFU_TYPE_u_int)
+AC_PREREQ([2.67])
+AC_INIT([libcfu], [0.04], [mbrush@codebrainz.ca])
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_HEADERS([src/config.h])
+AC_CONFIG_SRCDIR([src/cfu.c])
+AM_INIT_AUTOMAKE([foreign -Wall silent-rules dist-bzip2])
+AM_SILENT_RULES([yes])
 
 AC_PROG_CC
 AC_PROG_RANLIB
 
-#dnl Check for pthread support
-#SAVECFLAGS="$CFLAGS"
-#SAVELIBS="$LIBS"
-#CFLAGS="-pthread $CFLAGS"
-#LIBS="-pthread $LIBS"
-#AC_CHECK_FUNC(pthread_mutex_init,,
-    #CFLAGS="$SAVECFLAGS"
-    #LIBS="$SAVELIBS"
-    #AC_CHECK_LIB(pthread, pthread_mutex_init,,
-        #AC_CHECK_LIB(pthreads, pthread_mutex_init,,
-            #AC_MSG_ERROR([No pthreads support found.]))))
-
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stdlib.h string.h sys/time.h])
+AC_HEADER_ASSERT
+AC_HEADER_TIME
+AC_CHECK_HEADERS([sys/time.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_C_INLINE
 AC_TYPE_SIZE_T
-AC_HEADER_TIME
 
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
 AC_CHECK_FUNCS([gettimeofday memset strcasecmp strncasecmp])
 
-# AC_CONFIG_AUX_DIR
+# Check for pthread support
+AC_CHECK_LIB([pthread],
+             [pthread_create],
+             [AC_CHECK_HEADERS([pthread.h],
+                               [have_pthreads=yes],
+                               [have_pthreads=no])],
+             [have_pthreads=no])
+if test "$have_pthreads" = "yes"
+then
+  AC_SUBST([PTHREAD_LIBS], [-lpthread])
+fi
 
+# Allow enabling debug mode using configure argument
 AC_ARG_ENABLE(debug,
-	[  --enable-debug    Turn on debugging],
-     	[case "${enableval}" in
-       	yes) debug=true ;;
-       	no)  debug=false ;;
-       	*) AC_MSG_ERROR(bad value ${enableval} for --enable-debug) ;;
-     	esac],[debug=false])
-AM_CONDITIONAL(DEBUG, test x$debug = xtrue)
+  [  --enable-debug    Turn on debugging],
+    [case "${enableval}" in
+      yes) debug=true ;;
+      no)  debug=false ;;
+      *) AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;
+    esac],[debug=false])
+AM_CONDITIONAL([DEBUG], [test x$debug = xtrue])
 
-
-AC_CONFIG_FILES([Makefile
-	src/Makefile
-	examples/Makefile
-	doc/Makefile
-	include/cfutypes.h
-	include/cfu.h])
+AC_CONFIG_FILES([
+  Makefile
+  src/Makefile
+  examples/Makefile
+  doc/Makefile
+  include/cfutypes.h
+  include/cfu.h
+])
 
 AC_OUTPUT
