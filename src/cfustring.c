@@ -257,8 +257,8 @@ __cfustring_split_to_raw(cfustring_t *cfu_str, size_t *num_strings, size_t num_s
 	char **sep_array = (char **)calloc(num_seps, sizeof(char *));
 	char **sep_chk_ptrs = (char **)calloc(num_seps, sizeof(char *));
 	char **ret_strings = (char **)calloc(2, sizeof(char *));
-	u_int max_ret_strings = 2;
-	u_int used_ret_strings = 0;
+	unsigned int max_ret_strings = 2;
+	unsigned int used_ret_strings = 0;
 	char *start = NULL;
 	char *end = NULL;
 	char *next_str = NULL;
