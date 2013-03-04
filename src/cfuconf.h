@@ -46,11 +46,7 @@
 #include <cfulist.h>
 #include <cfustring.h>
 
-#include <stdio.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+CFU_BEGIN_DECLS
 
 	struct cfuconf;
 	typedef struct cfuconf cfuconf_t;
@@ -119,8 +115,6 @@ extern "C" {
 	/* Print out a representation of the parsed configuration */
 	extern void cfuconf_pretty_print_conf(cfuconf_t *conf, FILE *fp, size_t indent_level);
 
-#ifdef __cplusplus
-}
-#endif
+CFU_END_DECLS
 
 #endif

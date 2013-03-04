@@ -42,14 +42,9 @@
 #define _CFU_LIST_
 
 #include <cfu.h>
+#include <stddef.h>
 
-#include <sys/types.h>
-#include <stdio.h>
-#include <string.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+CFU_BEGIN_DECLS
 
     /* The list itself. */
     struct cfulist;
@@ -159,8 +154,6 @@ extern "C" {
 
 	extern char *cfulist_join(cfulist_t *list, const char *delimiter);
 
-#ifdef __cplusplus
-}
-#endif
+CFU_END_DECLS
 
 #endif

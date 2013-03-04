@@ -8,6 +8,7 @@ AM_INIT_AUTOMAKE([foreign -Wall silent-rules dist-bzip2])
 AM_SILENT_RULES([yes])
 
 AC_PROG_CC
+AM_PROG_CC_C_O
 AC_PROG_RANLIB
 
 # Checks for header files.
@@ -38,16 +39,6 @@ then
   AC_SUBST([PTHREAD_LIBS], [-lpthread])
 fi
 AM_CONDITIONAL([USE_PTHREADS], [test x$have_pthreads = xyes])
-
-# Allow enabling debug mode using configure argument
-AC_ARG_ENABLE(debug,
-  [  --enable-debug    Turn on debugging],
-    [case "${enableval}" in
-      yes) debug=true ;;
-      no)  debug=false ;;
-      *) AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;
-    esac],[debug=false])
-AM_CONDITIONAL([DEBUG], [test x$debug = xtrue])
 
 AC_CONFIG_FILES([
   Makefile

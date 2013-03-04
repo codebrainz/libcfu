@@ -3,7 +3,7 @@
  * Change log:
  */
 
-#include "cfu.h"
+#include <cfu.h>
 
 #ifndef _CFU_OPT_H_
 #define _CFU_OPT_H_

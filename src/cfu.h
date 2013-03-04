@@ -41,8 +41,6 @@
 #ifndef _LIBCFU_H_
 #define _LIBCFU_H_
 
-#include <stdio.h>
-
 #ifdef __cplusplus
 #define CFU_BEGIN_DECLS extern "C" {
 #define CFU_END_DECLS }

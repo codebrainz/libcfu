@@ -10,16 +10,7 @@
 #include "cfustring.h"
 
 #include <stdlib.h>
-
-#ifdef CFU_DEBUG
-#ifdef NDEBUG
-#undef NDEBUG
-#endif
-#else
-#ifndef NDEBUG
-#define NDEBUG 1
-#endif
-#endif
+#include <string.h>
 #include <assert.h>
 
 struct cfuopt_struct {

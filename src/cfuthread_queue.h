@@ -44,9 +44,7 @@
 
 #include <cfu.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+CFU_BEGIN_DECLS
 
 	/* cfuthread_queue provides a way to serialize requests for a
 	 * resource where you want the resource to be accessed from a
@@ -92,9 +90,6 @@ extern "C" {
 	 */
 	extern void cfuthread_queue_destroy(cfuthread_queue_t *);
 
-#ifdef __cplusplus
-}
-#endif
-
+CFU_END_DECLS
 
 #endif

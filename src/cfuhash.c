@@ -43,28 +43,18 @@
 #endif
 
 #include "cfu.h"
+#include "cfuhash.h"
+#include "cfustring.h"
 
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <assert.h>
 
 #ifdef HAVE_PTHREAD_H
 # include <pthread.h>
 #endif
 
-#include "cfuhash.h"
-#include "cfustring.h"
-
-#ifdef CFU_DEBUG
-#ifdef NDEBUG
-#undef NDEBUG
-#endif
-#else
-#ifndef NDEBUG
-#define NDEBUG 1
-#endif
-#endif
-#include <assert.h>
 
 typedef struct cfuhash_event_flags {
 	int resized:1;

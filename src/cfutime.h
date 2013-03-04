@@ -43,11 +43,7 @@
 
 #include <cfu.h>
 
-#include <sys/time.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+CFU_BEGIN_DECLS
 
 	struct cfutime;
 	typedef struct cfutime cfutime_t;
@@ -67,8 +63,6 @@ extern "C" {
 	/* Deallocate resources allocated for time. */
 	extern void cfutime_free(cfutime_t *time);
 
-#ifdef __cplusplus
-}
-#endif
+CFU_END_DECLS
 
 #endif

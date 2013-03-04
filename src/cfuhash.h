@@ -42,13 +42,10 @@
 #define _CFU_HASH_H_
 
 #include <cfu.h>
-
-#include <sys/types.h>
 #include <stdio.h>
+#include <sys/types.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+CFU_BEGIN_DECLS
 
     /* The hash table itself. */
     struct cfuhash_table;
@@ -270,8 +267,6 @@ extern "C" {
 #define CFUHASH_IGNORE_CASE (1 << 5) /* treat keys case-insensitively */
 
 
-#ifdef __cplusplus
-}
-#endif
+CFU_END_DECLS
 
 #endif

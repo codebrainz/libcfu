@@ -42,13 +42,10 @@
 #define _CFU_STRING_H_
 
 #include <cfu.h>
-
-#include <string.h>
 #include <stdarg.h>
+#include <stddef.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+CFU_BEGIN_DECLS
 
     struct cfustring;
     typedef struct cfustring cfustring_t;
@@ -119,8 +116,6 @@ extern "C" {
 	/* Like cfustring_split_to_c_str(), but split a char * instead of a cfustring_t *. */
 	extern char ** cfustring_c_str_split(const char *c_str, size_t *num_strings, size_t limit, ...);
 
-#ifdef __cplusplus
-}
-#endif
+CFU_END_DECLS
 
 #endif

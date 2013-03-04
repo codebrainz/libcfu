@@ -45,6 +45,8 @@
 #include "cfu.h"
 
 #include <stdlib.h>
+#include <string.h>
+#include <assert.h>
 
 #ifdef HAVE_PTHREAD_H
 # include <pthread.h>
@@ -52,17 +54,6 @@
 
 #include "cfulist.h"
 #include "cfustring.h"
-
-#ifdef CFU_DEBUG
-#ifdef NDEBUG
-#undef NDEBUG
-#endif
-#else
-#ifndef NDEBUG
-#define NDEBUG 1
-#endif
-#endif
-#include <assert.h>
 
 typedef struct cfulist_entry {
 	void *data;

@@ -40,19 +40,11 @@
 
 #include "cfu.h"
 #include "cfutime.h"
+
 #include <string.h>
 #include <stdlib.h>
-
-#ifdef CFU_DEBUG
-#ifdef NDEBUG
-#undef NDEBUG
-#endif
-#else
-#ifndef NDEBUG
-#define NDEBUG 1
-#endif
-#endif
 #include <assert.h>
+#include <sys/time.h>
 
 typedef struct cfutime {
 	libcfu_type type;

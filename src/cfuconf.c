@@ -46,16 +46,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
-
-#ifdef CFU_DEBUG
-#ifdef NDEBUG
-#undef NDEBUG
-#endif
-#else
-#ifndef NDEBUG
-#define NDEBUG 1
-#endif
-#endif
 #include <assert.h>
 
 struct cfuconf {
