@@ -38,12 +38,19 @@
    OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "cfu.h"
 
-#include <pthread.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+
+#ifdef HAVE_PTHREAD_H
+# include <pthread.h>
+#endif
 
 #include "cfuhash.h"
 #include "cfustring.h"
@@ -77,7 +84,9 @@ struct cfuhash_table {
 	size_t num_buckets;
 	size_t entries; /* Total number of entries in the table. */
 	cfuhash_entry **buckets;
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_t mutex;
+#endif
 	u_int32_t flags;
 	cfuhash_function_t hash_func;
 	size_t each_bucket_index;
@@ -166,7 +175,10 @@ _cfuhash_new(size_t size, u_int32_t flags) {
 	ht->entries = 0;
 	ht->flags = flags;
 	ht->buckets = (cfuhash_entry **)calloc(size, sizeof(cfuhash_entry *));
+
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_init(&ht->mutex, NULL);
+#endif
 	
 	ht->hash_func = hash_func;
 	ht->high = 0.75;
@@ -287,25 +299,33 @@ static inline void
 lock_hash(cfuhash_table_t *ht) {
 	if (!ht) return;
 	if (ht->flags & CFUHASH_NO_LOCKING) return;
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_lock(&ht->mutex);
+#endif
 }
 
 static inline void
 unlock_hash(cfuhash_table_t *ht) {
 	if (!ht) return;
 	if (ht->flags & CFUHASH_NO_LOCKING) return;
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_unlock(&ht->mutex);
+#endif
 }
 
 extern int
 cfuhash_lock(cfuhash_table_t *ht) {
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_lock(&ht->mutex);
+#endif
 	return 1;
 }
 
 extern int
 cfuhash_unlock(cfuhash_table_t *ht) {
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_unlock(&ht->mutex);
+#endif
 	return 1;
 }
 
@@ -757,7 +777,9 @@ cfuhash_destroy_with_free_fn(cfuhash_table_t *ht, cfuhash_free_fn_t ff) {
 	}
 	free(ht->buckets);
 	unlock_hash(ht);
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_destroy(&ht->mutex);
+#endif
 	free(ht);
 
 	return 1;

@@ -37,6 +37,7 @@ if test "$have_pthreads" = "yes"
 then
   AC_SUBST([PTHREAD_LIBS], [-lpthread])
 fi
+AM_CONDITIONAL([USE_PTHREADS], [test x$have_pthreads = xyes])
 
 # Allow enabling debug mode using configure argument
 AC_ARG_ENABLE(debug,

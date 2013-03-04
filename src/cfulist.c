@@ -38,9 +38,17 @@
    OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "cfu.h"
 
 #include <stdlib.h>
+
+#ifdef HAVE_PTHREAD_H
+# include <pthread.h>
+#endif
 
 #include "cfulist.h"
 #include "cfustring.h"
@@ -68,7 +76,9 @@ struct cfulist {
 	cfulist_entry *entries;
 	cfulist_entry *tail;
 	size_t num_entries;
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_t mutex;
+#endif
 	cfulist_entry *each_ptr;
 	cfulist_free_fn_t free_fn;
 };
@@ -76,7 +86,9 @@ struct cfulist {
 extern cfulist_t *
 cfulist_new() {
 	cfulist_t *list = (cfulist_t *)calloc(1, sizeof(cfulist_t));
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_init(&list->mutex, NULL);
+#endif
 	list->type = libcfu_t_list;
 	return list;
 }
@@ -95,12 +107,16 @@ cfulist_num_entries(cfulist_t *list) {
 
 static inline void
 lock_list(cfulist_t *list) {
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_lock(&list->mutex);
+#endif
 }
 
 static inline void
 unlock_list(cfulist_t *list) {
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_unlock(&list->mutex);
+#endif
 }
 
 static inline cfulist_entry *
@@ -526,7 +542,9 @@ cfulist_destroy(cfulist_t *list) {
 		}
 	}
 	unlock_list(list);
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_destroy(&list->mutex);
+#endif
 	free(list);
 }
 
@@ -547,6 +565,8 @@ cfulist_destroy_with_free_fn(cfulist_t *list, cfulist_free_fn_t free_fn) {
 		}
 	}
 	unlock_list(list);
+#ifdef HAVE_PTHREAD_H
 	pthread_mutex_destroy(&list->mutex);
+#endif
 	free(list);
 }

@@ -1,10 +1,16 @@
 lib_LIBRARIES = libcfu.a
 
 libcfu_a_SOURCES = cfuhash.c cfutime.c cfustring.c cfulist.c cfuconf.c \
-                   cfuthread_queue.c cfu.c cfuopt.c
+                   cfu.c cfuopt.c
+
 
 include_HEADERS = cfu.h cfuhash.h cfutime.h cfustring.h cfulist.h \
-                  cfuconf.h cfuthread_queue.h cfuopt.h
+                  cfuconf.h cfuopt.h
+
+if USE_PTHREADS
+libcfu_a_SOURCES += cfuthread_queue.c
+include_HEADERS += cfuthread_queue.h
+endif
 
 bin_PROGRAMS = libcfu-config
 
