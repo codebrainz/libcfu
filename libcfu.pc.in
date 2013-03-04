@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: @PACKAGE_NAME@
+Description: Portable C data structure and utility library
+Version: @PACKAGE_VERSION@
+Libs.private: @PTHREAD_LIBS@
+Cflags: -I${includedir}/cfu

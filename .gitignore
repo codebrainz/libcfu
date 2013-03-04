@@ -19,3 +19,4 @@ Makefile.in
 /m4/
 /src/config.*
 /doc/stamp-vti
+/libcfu.pc

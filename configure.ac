@@ -41,6 +41,7 @@ fi
 AM_CONDITIONAL([USE_PTHREADS], [test x$have_pthreads = xyes])
 
 AC_CONFIG_FILES([
+  libcfu.pc
   Makefile
   src/Makefile
   examples/Makefile
