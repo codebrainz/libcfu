@@ -47,7 +47,7 @@ CFU_BEGIN_DECLS
 typedef struct cfustring cfustring_t;
 
 /* Returns a new String. */
-extern cfustring_t * cfustring_new();
+extern cfustring_t * cfustring_new(void);
 
 /* Returns a new String, but preallocates a buffer of the given size. */
 extern cfustring_t * cfustring_new_with_initial_size(size_t initial_size);

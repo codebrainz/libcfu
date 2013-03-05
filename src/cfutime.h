@@ -45,7 +45,7 @@ CFU_BEGIN_DECLS
 typedef struct cfutime cfutime_t;
 
 /* Return a new cfutime structure. */
-extern cfutime_t *cfutime_new();
+extern cfutime_t *cfutime_new(void);
 
 /* Start the timer. */
 extern void cfutime_begin(cfutime_t *time);

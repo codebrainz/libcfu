@@ -202,7 +202,7 @@ _cfuhash_new(size_t size, u_int32_t flags) {
 }
 
 extern cfuhash_table_t *
-cfuhash_new() {
+cfuhash_new(void) {
 	return _cfuhash_new(8, CFUHASH_FROZEN_UNTIL_GROWS);
 }
 

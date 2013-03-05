@@ -45,7 +45,7 @@ CFU_BEGIN_DECLS
 typedef struct cfuopt_struct cfuopt_t;
 
 /* Returns a new options context */
-extern cfuopt_t *cfuopt_new();
+extern cfuopt_t *cfuopt_new(void);
 
 /* Adds to the list of known options. */
 extern void cfuopt_add_entry(cfuopt_t *context, const char *opt_str, void *arg_data,

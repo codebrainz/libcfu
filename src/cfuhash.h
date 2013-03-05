@@ -67,7 +67,7 @@ typedef int (*cfuhash_foreach_fn_t)(void *key, size_t key_size, void *data, size
 	void *arg);
 
 /* Creates a new hash table. */
-extern cfuhash_table_t * cfuhash_new();
+extern cfuhash_table_t * cfuhash_new(void);
 
 /* Creates a new hash table with the specified size (number of
  *  buckets).

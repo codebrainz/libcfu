@@ -63,7 +63,7 @@ typedef void * (*cfulist_map_fn_t)(void *data, size_t data_size, void *arg,
 typedef void (*cfulist_free_fn_t)(void *data);
 
 /* Returns a new list. */
-extern cfulist_t * cfulist_new();
+extern cfulist_t * cfulist_new(void);
 
 /* Same as cfulist_new(), but set a function to be called on each
  * element when the list is destroyed.

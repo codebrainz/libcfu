@@ -72,7 +72,7 @@ struct cfulist {
 };
 
 extern cfulist_t *
-cfulist_new() {
+cfulist_new(void) {
 	cfulist_t *list = calloc(1, sizeof(cfulist_t));
 #ifdef HAVE_PTHREAD_H
 	pthread_mutex_init(&list->mutex, NULL);

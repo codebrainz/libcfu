@@ -78,7 +78,7 @@ typedef struct cfuconf_stack_entry {
 } cfuconf_stack_entry_t;
 
 static cfuconf_t *
-cfuconf_new() {
+cfuconf_new(void) {
 	cfuconf_t *conf = calloc(1, sizeof(cfuconf_t));
 	conf->type = libcfu_t_conf;
 	conf->containers = cfuhash_new_with_flags(CFUHASH_IGNORE_CASE);

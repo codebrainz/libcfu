@@ -62,7 +62,7 @@ struct cfustring {
 };
 
 extern cfustring_t *
-cfustring_new() {
+cfustring_new(void) {
 	return cfustring_new_with_initial_size(0);
 }
 
