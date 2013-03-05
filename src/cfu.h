@@ -59,7 +59,7 @@ CFU_BEGIN_DECLS
 #define LIBCFU_VERSION "0.04"
 
 typedef enum { libcfu_t_none = 0, libcfu_t_hash_table, libcfu_t_list, libcfu_t_string,
-			   libcfu_t_time, libcfu_t_conf } libcfu_type;
+			   libcfu_t_time, libcfu_t_timer, libcfu_t_conf } libcfu_type;
 
 typedef struct libcfu_item libcfu_item_t;
 
@@ -68,6 +68,7 @@ extern int cfu_is_hash(void *item);
 extern int cfu_is_list(void *item);
 extern int cfu_is_string(void *item);
 extern int cfu_is_time(void *item);
+int cfu_is_timer(void *item);
 extern int cfu_is_conf(void *item);
 
 CFU_END_DECLS

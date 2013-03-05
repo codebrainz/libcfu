@@ -71,6 +71,14 @@ cfu_is_time(void *item) {
 	return 0;
 }
 
+int
+cfu_is_timer(void *item)
+{
+	if (cfu_get_type(item) == libcfu_t_time)
+		return 1;
+	return 0;
+}
+
 extern int
 cfu_is_conf(void *item) {
 	if (cfu_get_type(item) == libcfu_t_conf) return 1;

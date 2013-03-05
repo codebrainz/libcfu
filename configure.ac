@@ -27,6 +27,12 @@ AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
 AC_CHECK_FUNCS([gettimeofday memset snprintf strcasecmp strncasecmp vsnprintf])
 
+# Check for clock_gettime()
+AC_CHECK_FUNCS([clock_gettime], [],
+               [AC_CHECK_LIB([rt], [clock_gettime],
+                             [AC_DEFINE(HAVE_CLOCK_GETTIME, 1)
+                              AC_SUBST([REALTIME_LIBS], [-lrt])])])
+
 # Check for pthread support
 AC_CHECK_LIB([pthread],
              [pthread_create],
