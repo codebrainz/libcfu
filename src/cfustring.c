@@ -256,7 +256,6 @@ __cfustring_split_to_raw(cfustring_t *cfu_str, size_t *num_strings, size_t num_s
 	char **ret_strings = (char **)calloc(2, sizeof(char *));
 	unsigned int max_ret_strings = 2;
 	unsigned int used_ret_strings = 0;
-	char *start = NULL;
 	char *end = NULL;
 	char *next_str = NULL;
 	int last = 0;
@@ -274,7 +273,7 @@ __cfustring_split_to_raw(cfustring_t *cfu_str, size_t *num_strings, size_t num_s
 		sep_array[i] = _dup_str(sep);
 	}
 
-	start = end = cfustring_get_buffer(cfu_str);
+	end = cfustring_get_buffer(cfu_str);
 	if (!end) {
 		*num_strings = 0;
 		free(ret_strings);

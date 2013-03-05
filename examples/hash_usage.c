@@ -3,11 +3,36 @@
  * Change log:
  */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "cfuhash.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#if defined(HAVE_STRNCASECMP) && defined(HAVE_STRINGS_H)
+# include <strings.h>
+#else /* If strncasecmp() isn't available use this one */
+static inline int
+strncasecmp(const char *s1, const char *s2, size_t n)
+{
+	assert(s1 && s2);
+	if (n != 0) {
+		const unsigned char *us1 = (const unsigned char *) s1,
+		const unsigned char *us2 = (const unsigned char *) s2;
+		do {
+			if (tolower(*us1) != tolower(*us2++))
+				return (tolower(*us1) - tolower(*--us2));
+			if (*us1++ == '\0')
+				break;
+		} while (--n != 0);
+	}
+	return 0;
+}
+#endif
 
 static int
 remove_func(void *key, size_t key_size, void *data, size_t data_size, void *arg) {
@@ -39,7 +64,7 @@ int main(int argc, char **argv) {
 		sprintf(list[i][0], "test_var%lu", i);
 		sprintf(list[i][1], "value%lu", i);
 	}
-	
+
 	cfuhash_put(hash, "var1", "value1");
 	cfuhash_put(hash, "var2", "value2");
 	cfuhash_put(hash, "var3", "value3");
@@ -61,7 +86,7 @@ int main(int argc, char **argv) {
 	printf("%lu entries, %lu buckets used out of %lu\n", cfuhash_num_entries(hash), cfuhash_num_buckets_used(hash), cfuhash_num_buckets(hash));
 
 	cfuhash_pretty_print(hash, stdout);
-	
+
 	cfuhash_clear(hash);
 
 	for (i = 0; i < 32; i++) {
@@ -79,7 +104,7 @@ int main(int argc, char **argv) {
 		char **keys = NULL;
 		size_t *key_sizes = NULL;
 		size_t key_count = 0;
-		
+
 		keys = (char **)cfuhash_keys_data(hash, &key_count, &key_sizes, 0);
 
 		printf("\n\nkeys (%lu):\n", key_count);
@@ -101,10 +126,10 @@ int main(int argc, char **argv) {
 	cfuhash_set_flag(hash, CFUHASH_IGNORE_CASE);
 	cfuhash_put(hash, "Content-Type", "value1");
 	cfuhash_put(hash, "Content-Length", "value2");
-	
+
 	cfuhash_put(hash2, "var3", "value3");
 	cfuhash_put(hash2, "var4", "value4");
-	
+
 
 	cfuhash_pretty_print(hash, stdout);
 	cfuhash_copy(hash2, hash);

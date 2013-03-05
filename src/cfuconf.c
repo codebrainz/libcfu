@@ -35,6 +35,10 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "cfu.h"
 #include "cfuconf.h"
 
@@ -43,6 +47,21 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <assert.h>
+
+#if defined(HAVE_STRCASECMP) && defined(HAVE_STRINGS_H)
+# include <strings.h>
+#else /* If strcasecmp() isn't available use this one */
+static inline int
+strcasecmp(const char *s1, const char *s2, size_t n)
+{
+	int c1, c2;
+	while (c1 = toupper(*s1++), c2 = toupper(*s2++), c1 == c2 && (c1 & c2))
+		;
+	if (c1 & c2)
+		return c1 < c2 ? -1 : 1;
+	return c1 ? 1 : (c2 ? -1 : 0);
+}
+#endif
 
 struct cfuconf {
 	libcfu_type type;
@@ -650,6 +669,7 @@ print_indent(size_t depth, FILE *fp) {
 	}
 }
 
+#if 0 /* Not currently used */
 static void
 print_container(cfuhash_table_t *conf_hash, size_t depth) {
 	char **keys = NULL;
@@ -702,6 +722,7 @@ print_container(cfuhash_table_t *conf_hash, size_t depth) {
 	}
 	free(keys);
 }
+#endif /* End currently unused function print_container() */
 
 typedef struct directive_foreach_ds {
 	size_t depth;

@@ -52,6 +52,27 @@
 # include <pthread.h>
 #endif
 
+#if defined(HAVE_STRNCASECMP) && defined(HAVE_STRINGS_H)
+# include <strings.h>
+#else /* If strncasecmp() isn't available use this one */
+static inline int
+strncasecmp(const char *s1, const char *s2, size_t n)
+{
+	assert(s1 && s2);
+	if (n != 0) {
+		const unsigned char *us1 = (const unsigned char *) s1,
+		const unsigned char *us2 = (const unsigned char *) s2;
+		do {
+			if (tolower(*us1) != tolower(*us2++))
+				return (tolower(*us1) - tolower(*--us2));
+			if (*us1++ == '\0')
+				break;
+		} while (--n != 0);
+	}
+	return 0;
+}
+#endif
+
 
 typedef struct cfuhash_event_flags {
 	int resized:1;
@@ -89,8 +110,8 @@ struct cfuhash_table {
 static u_int32_t
 hash_func(const void *key, size_t length) {
 	register size_t i = length;
-	register u_int hv = 0; /* could put a seed here instead of zero */
-	register const unsigned char *s = (char *)key;
+	register unsigned int hv = 0; /* could put a seed here instead of zero */
+	register const unsigned char *s = (unsigned char *)key;
 	while (i--) {
 		hv += *s++;
 		hv += (hv << 10);
@@ -104,9 +125,9 @@ hash_func(const void *key, size_t length) {
 }
 
 /* makes sure the real size of the buckets array is a power of 2 */
-static u_int
-hash_size(u_int s) {
-	u_int i = 1;
+static unsigned int
+hash_size(unsigned int s) {
+	unsigned int i = 1;
 	while (i < s) i <<= 1;
 	return i;
 }
@@ -127,9 +148,9 @@ hash_key_dup_lower_case(const void *key, size_t key_size) {
 }
 
 /* returns the index into the buckets array */
-static inline u_int
+static inline unsigned int
 hash_value(cfuhash_table_t *ht, const void *key, size_t key_size, size_t num_buckets) {
-	u_int hv = 0;
+	unsigned int hv = 0;
 
 	if (key) {
 		if (ht->flags & CFUHASH_IGNORE_CASE) {
@@ -320,7 +341,7 @@ cfuhash_unlock(cfuhash_table_t *ht) {
 /* uses the convention that zero means a match, like memcmp */
 
 static inline int
-hash_cmp(const void *key, size_t key_size, cfuhash_entry *he, u_int case_insensitive) {
+hash_cmp(const void *key, size_t key_size, cfuhash_entry *he, unsigned int case_insensitive) {
 	if (key_size != he->key_size) return 1;
 	if (key == he->key) return 0;
 	if (case_insensitive) {
@@ -330,7 +351,7 @@ hash_cmp(const void *key, size_t key_size, cfuhash_entry *he, u_int case_insensi
 }
 
 static inline cfuhash_entry *
-hash_add_entry(cfuhash_table_t *ht, u_int hv, const void *key, size_t key_size,
+hash_add_entry(cfuhash_table_t *ht, unsigned int hv, const void *key, size_t key_size,
 	void *data, size_t data_size) {
 	cfuhash_entry *he = (cfuhash_entry *)calloc(1, sizeof(cfuhash_entry));
 
@@ -357,7 +378,7 @@ hash_add_entry(cfuhash_table_t *ht, u_int hv, const void *key, size_t key_size,
 extern int
 cfuhash_get_data(cfuhash_table_t *ht, const void *key, size_t key_size, void **r,
 	size_t *data_size) {
-	u_int hv = 0;
+	unsigned int hv = 0;
 	cfuhash_entry *hr = NULL;
 
 	if (!ht) return 0;
@@ -424,7 +445,7 @@ cfuhash_exists(cfuhash_table_t *ht, const char *key) {
 extern int
 cfuhash_put_data(cfuhash_table_t *ht, const void *key, size_t key_size, void *data,
 	size_t data_size, void **r) {
-	u_int hv = 0;
+	unsigned int hv = 0;
 	cfuhash_entry *he = NULL;
 	int added_an_entry = 0;
 
@@ -513,7 +534,7 @@ cfuhash_clear(cfuhash_table_t *ht) {
 
 extern void *
 cfuhash_delete_data(cfuhash_table_t *ht, const void *key, size_t key_size) {
-	u_int hv = 0;
+	unsigned int hv = 0;
 	cfuhash_entry *he = NULL;
 	cfuhash_entry *hep = NULL;
 	void *r = NULL;
@@ -826,7 +847,7 @@ cfuhash_rehash(cfuhash_table_t *ht) {
 		cfuhash_entry *he = ht->buckets[i];
 		while (he) {
 			cfuhash_entry *nhe = he->next;
-			u_int hv = hash_value(ht, he->key, he->key_size, new_size);
+			unsigned int hv = hash_value(ht, he->key, he->key_size, new_size);
 			he->next = new_buckets[hv];
 			new_buckets[hv] = he;
 			he = nhe;

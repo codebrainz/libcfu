@@ -88,7 +88,7 @@ _run_queue(void *arg) {
 		tq->init_fn(tq->init_arg);
 	}
 
-	pthread_cleanup_push((void *)tq->cleanup_fn, tq->cleanup_arg);
+	pthread_cleanup_push(tq->cleanup_fn, tq->cleanup_arg);
 
 	while (1) {
 		pthread_mutex_lock(&tq->mutex);

@@ -27,7 +27,7 @@ dup_str(const char *str) {
 static u_int32_t
 hash_func1(const void *key, size_t length) {
 	size_t i = length;
-	u_int hash = 0;
+	unsigned int hash = 0;
 	char *s = (char *)key;
 	while (i--) hash = hash * 33 + *s++;
 
@@ -50,7 +50,7 @@ hash_func1(const void *key, size_t length) {
 
 typedef u_int32_t ub4;
 
-static u_int
+static unsigned int
 hash_func_tc(const void *key, size_t length)
 {
     register ub4 a,b,c,len;
@@ -98,7 +98,6 @@ hash_func_tc(const void *key, size_t length)
 static int
 time_it(cfuhash_function_t hf, double *elapsed_time, u_int32_t num_tests) {
 	cfuhash_table_t *hash = cfuhash_new_with_initial_size(30);
-	u_int32_t flags = 0;
 	char key[32];
 	char value[32];
 	size_t i;
@@ -108,7 +107,7 @@ time_it(cfuhash_function_t hf, double *elapsed_time, u_int32_t num_tests) {
 	cfutime_t *time = cfutime_new();
 
 	/* freeze the hash so that it won't shrink while we put in all the data */
-	flags = cfuhash_set_flag(hash, CFUHASH_FROZEN_UNTIL_GROWS);
+	cfuhash_set_flag(hash, CFUHASH_FROZEN_UNTIL_GROWS);
 	cfuhash_set_hash_function(hash, hf);
 
 	cfutime_begin(time);
@@ -125,7 +124,7 @@ time_it(cfuhash_function_t hf, double *elapsed_time, u_int32_t num_tests) {
 	num_entries = cfuhash_num_entries(hash);
 	printf("%lu entries, %lu/%lu buckets (%.2f%%), %.2f%% threshold check\n", num_entries, used, num_buckets, 100.0 * (float)used/(float)num_buckets, 100.0 * (float)num_entries/(float)num_buckets);
 
-	cfuhash_destroy_with_free_fn(hash, free_data);	
+	cfuhash_destroy_with_free_fn(hash, free_data);
 
 	return 0;
 }

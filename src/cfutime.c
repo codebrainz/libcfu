@@ -43,12 +43,11 @@
 #include <assert.h>
 #include <sys/time.h>
 
+
 typedef struct cfutime {
 	libcfu_type type;
 	struct timeval begin_tv;
-	struct timezone begin_tz;
 	struct timeval end_tv;
-	struct timezone end_tz;
 } cfutime;
 
 extern cfutime_t *
@@ -60,12 +59,12 @@ cfutime_new() {
 
 extern void
 cfutime_begin(cfutime_t *time) {
-	gettimeofday(&(time->begin_tv), &(time->begin_tz));
+	gettimeofday(&(time->begin_tv), NULL);
 }
 
 extern void
 cfutime_end(cfutime_t *time) {
-	gettimeofday(&(time->end_tv), &(time->end_tz));
+	gettimeofday(&(time->end_tv), NULL);
 }
 
 extern double
