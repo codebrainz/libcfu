@@ -41,31 +41,31 @@ struct libcfu_item {
 	libcfu_type type;
 };
 
-extern libcfu_type
+libcfu_type
 cfu_get_type(void *item) {
 	if (!item) return libcfu_t_none;
 	return ((libcfu_item_t *)item)->type;
 }
 
-extern int
+int
 cfu_is_hash(void *item) {
 	if (cfu_get_type(item) == libcfu_t_hash_table) return 1;
 	return 0;
 }
 
-extern int
+int
 cfu_is_list(void *item) {
 	if (cfu_get_type(item) == libcfu_t_list) return 1;
 	return 0;
 }
 
-extern int
+int
 cfu_is_string(void *item) {
 	if (cfu_get_type(item) == libcfu_t_string) return 1;
 	return 0;
 }
 
-extern int
+int
 cfu_is_time(void *item) {
 	if (cfu_get_type(item) == libcfu_t_time) return 1;
 	return 0;
@@ -79,7 +79,7 @@ cfu_is_timer(void *item)
 	return 0;
 }
 
-extern int
+int
 cfu_is_conf(void *item) {
 	if (cfu_get_type(item) == libcfu_t_conf) return 1;
 	return 0;

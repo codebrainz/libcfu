@@ -61,12 +61,12 @@ struct cfustring {
 	char *str;
 };
 
-extern cfustring_t *
+cfustring_t *
 cfustring_new(void) {
 	return cfustring_new_with_initial_size(0);
 }
 
-extern cfustring_t *
+cfustring_t *
 cfustring_new_with_initial_size(size_t initial_size) {
 	cfustring_t *cfu_str = calloc(1, sizeof(cfustring_t));
 	cfu_str->type = libcfu_t_string;
@@ -78,14 +78,14 @@ cfustring_new_with_initial_size(size_t initial_size) {
 	return cfu_str;
 }
 
-extern cfustring_t *
+cfustring_t *
 cfustring_new_from_string(const char *string) {
 	cfustring_t *cfu_str = cfustring_new();
 	cfustring_append(cfu_str, string);
 	return cfu_str;
 }
 
-extern int
+int
 cfustring_dup(cfustring_t *cfu_str, const char *string) {
 	if (!string) {
 		cfu_str->max_size = 0;
@@ -100,7 +100,7 @@ cfustring_dup(cfustring_t *cfu_str, const char *string) {
 	return 1;
 }
 
-extern int
+int
 cfustring_clear(cfustring_t *cfu_str) {
 	if (cfu_str->str) {
 		cfu_str->str[0] = '\000';
@@ -109,7 +109,7 @@ cfustring_clear(cfustring_t *cfu_str) {
 	return 1;
 }
 
-extern int
+int
 cfustring_append_n(cfustring_t *cfu_str, const char *string, size_t n) {
 	size_t str_len = 0;
 	if (!string) return 1;
@@ -159,17 +159,17 @@ cfustring_append_n(cfustring_t *cfu_str, const char *string, size_t n) {
 	return 1;
 }
 
-extern int
+int
 cfustring_append(cfustring_t *cfu_str, const char *string) {
 	return cfustring_append_n(cfu_str, string, 0);
 }
 
-extern char *
+char *
 cfustring_get_buffer(cfustring_t *cfu_str) {
 	return cfu_str->str;
 }
 
-extern char *
+char *
 cfustring_get_buffer_copy(cfustring_t *cfu_str) {
 	char *buffer = NULL;
 	if (!cfu_str->str) return NULL;
@@ -200,12 +200,12 @@ _dup_str_n(const char *str, size_t n) {
 	return ns;
 }
 
-extern char *
+char *
 cfustring_dup_c_str(const char *str) {
 	return _dup_str(str);
 }
 
-extern char *
+char *
 cfustring_dup_c_str_n(const char *str, size_t n) {
 	return _dup_str_n(str, n);
 }
@@ -321,7 +321,7 @@ __cfustring_split_to_raw(cfustring_t *cfu_str, size_t *num_strings, size_t num_s
 	return ret_strings;
 }
 
-extern cfustring_t **
+cfustring_t **
 cfustring_split(cfustring_t *cfu_str, size_t *num_strings, size_t limit, ...) {
 	va_list ap;
 	char **strings = NULL;
@@ -354,7 +354,7 @@ cfustring_split(cfustring_t *cfu_str, size_t *num_strings, size_t limit, ...) {
 }
 
 
-extern char **
+char **
 cfustring_split_to_c_str(cfustring_t *cfu_str, size_t *num_strings, size_t limit, ...) {
 	char **rv = NULL;
 	va_list ap;
@@ -376,7 +376,7 @@ cfustring_split_to_c_str(cfustring_t *cfu_str, size_t *num_strings, size_t limit
 	return rv;
 }
 
-extern char *
+char *
 cfustring_sprintf_c_str(const char *fmt, ...) {
 	va_list ap;
 	char *str = NULL;
@@ -391,7 +391,7 @@ cfustring_sprintf_c_str(const char *fmt, ...) {
 	return str;
 }
 
-extern size_t
+size_t
 cfustring_sprintf(cfustring_t *cfu_str, const char *fmt, ...) {
 	va_list ap;
 	size_t rv = 0;
@@ -454,7 +454,7 @@ _safe_strncpy(char **buf, size_t *buf_size, const char *src, size_t size) {
 	return rv;
 }
 
-extern size_t
+size_t
 cfustring_vsprintf(cfustring_t *cfu_str, const char *fmt_in, va_list ap) {
 	const char *ptr = NULL;
 	const char *start = NULL;
@@ -594,14 +594,14 @@ cfustring_vsprintf(cfustring_t *cfu_str, const char *fmt_in, va_list ap) {
 	return byte_count;
 }
 
-extern int
+int
 cfustring_destroy(cfustring_t *cfu_str) {
 	free(cfu_str->str);
 	free(cfu_str);
 	return 1;
 }
 
-extern char **
+char **
 cfustring_c_str_split(const char *c_str, size_t *num_strings, size_t limit, ...) {
 	cfustring_t *cfu_str = cfustring_new_from_string(c_str);
 	char **rv = NULL;

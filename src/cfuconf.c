@@ -132,7 +132,7 @@ _directive_free_fn(void *data) {
 	cfulist_destroy_with_free_fn(list, _directive_free_val_list_fn);
 }
 
-extern void
+void
 cfuconf_destroy(cfuconf_t *conf) {
 	if (conf->containers) {
 		/* cfuhash_foreach(conf->containers, _container_free_foreach_fn, NULL); */
@@ -146,13 +146,13 @@ cfuconf_destroy(cfuconf_t *conf) {
 	free(conf);
 }
 
-extern cfuhash_table_t *
+cfuhash_table_t *
 cfuconf_get_containers(cfuconf_t *conf) {
 	if (!conf) return NULL;
 	return conf->containers;
 }
 
-extern cfuhash_table_t *
+cfuhash_table_t *
 cfuconf_get_directives(cfuconf_t *conf) {
 	if (!conf) return NULL;
 	return conf->directives;
@@ -188,7 +188,7 @@ _get_directive_last_val_list(cfuconf_t *conf, char *directive, cfulist_t **val_l
 
 }
 
-extern int
+int
 cfuconf_get_directive_one_arg(cfuconf_t *conf, char *directive, char **rvalue) {
 	cfulist_t *val_list = NULL;
 	void *val = NULL;
@@ -205,12 +205,12 @@ cfuconf_get_directive_one_arg(cfuconf_t *conf, char *directive, char **rvalue) {
 	return -1;
 }
 
-extern int
+int
 cfuconf_get_directive_two_args(cfuconf_t *conf, char *directive, char **rvalue, char **rvalue2) {
 	return cfuconf_get_directive_n_args(conf, directive, 2, rvalue, rvalue2);
 }
 
-extern int
+int
 cfuconf_get_directive_n_args(cfuconf_t *conf, char *directive, size_t n, ...) {
 	va_list ap;
 	size_t i = 0;
@@ -605,7 +605,7 @@ _cfuconf_parse_list(cfulist_t *lines, char **error) {
 	return conf;
 }
 
-extern int
+int
 cfuconf_parse_file(char *file_path, cfuconf_t **ret_conf, char **error) {
 	FILE *fp = NULL;
 	cfulist_t *lines = NULL;
@@ -630,7 +630,7 @@ cfuconf_parse_file(char *file_path, cfuconf_t **ret_conf, char **error) {
 	return -1;
 }
 
-extern int
+int
 cfuconf_parse_buffer(char *buffer, cfuconf_t **ret_conf, char **error) {
 	cfulist_t *lines = cfulist_new();
 	char **strings = NULL;
@@ -811,7 +811,7 @@ print_conf(cfuconf_t *conf, size_t depth, FILE *fp) {
 	free(ds);
 }
 
-extern void
+void
 cfuconf_pretty_print_conf(cfuconf_t *conf, FILE *fp, size_t indent_level) {
 	print_conf(conf, indent_level, fp);
 }

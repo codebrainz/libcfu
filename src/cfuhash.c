@@ -201,29 +201,29 @@ _cfuhash_new(size_t size, u_int32_t flags) {
 	return ht;
 }
 
-extern cfuhash_table_t *
+cfuhash_table_t *
 cfuhash_new(void) {
 	return _cfuhash_new(8, CFUHASH_FROZEN_UNTIL_GROWS);
 }
 
-extern cfuhash_table_t *
+cfuhash_table_t *
 cfuhash_new_with_initial_size(size_t size) {
 	if (size == 0) size = 8;
 	return _cfuhash_new(size, CFUHASH_FROZEN_UNTIL_GROWS);
 }
 
-extern cfuhash_table_t *
+cfuhash_table_t *
 cfuhash_new_with_flags(u_int32_t flags) {
 	return _cfuhash_new(8, CFUHASH_FROZEN_UNTIL_GROWS|flags);
 }
 
-extern cfuhash_table_t * cfuhash_new_with_free_fn(cfuhash_free_fn_t ff) {
+cfuhash_table_t * cfuhash_new_with_free_fn(cfuhash_free_fn_t ff) {
 	cfuhash_table_t *ht = _cfuhash_new(8, CFUHASH_FROZEN_UNTIL_GROWS);
 	cfuhash_set_free_function(ht, ff);
 	return ht;
 }
 
-extern int
+int
 cfuhash_copy(cfuhash_table_t *src, cfuhash_table_t *dst) {
 	size_t num_keys = 0;
 	void **keys = NULL;
@@ -247,7 +247,7 @@ cfuhash_copy(cfuhash_table_t *src, cfuhash_table_t *dst) {
 	return 1;
 }
 
-extern cfuhash_table_t *
+cfuhash_table_t *
 cfuhash_merge(cfuhash_table_t *ht1, cfuhash_table_t *ht2, u_int32_t flags) {
 	cfuhash_table_t *new_ht = NULL;
 
@@ -260,27 +260,27 @@ cfuhash_merge(cfuhash_table_t *ht1, cfuhash_table_t *ht2, u_int32_t flags) {
 }
 
 /* returns the flags */
-extern u_int32_t
+u_int32_t
 cfuhash_get_flags(cfuhash_table_t *ht) {
 	return ht->flags;
 }
 
 /* sets the given flag and returns the old flags value */
-extern u_int32_t
+u_int32_t
 cfuhash_set_flag(cfuhash_table_t *ht, u_int32_t new_flag) {
 	u_int32_t flags = ht->flags;
 	ht->flags = flags | new_flag;
 	return flags;
 }
 
-extern u_int32_t
+u_int32_t
 cfuhash_clear_flag(cfuhash_table_t *ht, u_int32_t new_flag) {
 	u_int32_t flags = ht->flags;
 	ht->flags = flags & ~new_flag;
 	return flags;
 }
 
-extern int
+int
 cfuhash_set_thresholds(cfuhash_table_t *ht, float low, float high) {
 	float h = high < 0 ? ht->high : high;
 	float l = low < 0 ? ht->low : low;
@@ -294,7 +294,7 @@ cfuhash_set_thresholds(cfuhash_table_t *ht, float low, float high) {
 }
 
 /* Sets the hash function for the hash table ht.  Pass NULL for hf to reset to the default */
-extern int
+int
 cfuhash_set_hash_function(cfuhash_table_t *ht, cfuhash_function_t hf) {
 	/* can't allow changing the hash function if the hash already contains entries */
 	if (ht->entries) return -1;
@@ -303,7 +303,7 @@ cfuhash_set_hash_function(cfuhash_table_t *ht, cfuhash_function_t hf) {
 	return 0;
 }
 
-extern int
+int
 cfuhash_set_free_function(cfuhash_table_t * ht, cfuhash_free_fn_t ff) {
 	if (ff) ht->free_fn = ff;
 	return 0;
@@ -327,7 +327,7 @@ unlock_hash(cfuhash_table_t *ht) {
 #endif
 }
 
-extern int
+int
 cfuhash_lock(cfuhash_table_t *ht) {
 #ifdef HAVE_PTHREAD_H
 	pthread_mutex_lock(&ht->mutex);
@@ -335,7 +335,7 @@ cfuhash_lock(cfuhash_table_t *ht) {
 	return 1;
 }
 
-extern int
+int
 cfuhash_unlock(cfuhash_table_t *ht) {
 #ifdef HAVE_PTHREAD_H
 	pthread_mutex_unlock(&ht->mutex);
@@ -381,7 +381,7 @@ hash_add_entry(cfuhash_table_t *ht, unsigned int hv, const void *key, size_t key
  Returns one if the entry was found, zero otherwise.  If found, r is
  changed to point to the data in the entry.
 */
-extern int
+int
 cfuhash_get_data(cfuhash_table_t *ht, const void *key, size_t key_size, void **r,
 	size_t *data_size) {
 	unsigned int hv = 0;
@@ -417,7 +417,7 @@ cfuhash_get_data(cfuhash_table_t *ht, const void *key, size_t key_size, void **r
 /*
  Assumes the key is a null-terminated string, returns the data, or NULL if not found.  Note that it is possible for the data itself to be NULL
 */
-extern void *
+void *
 cfuhash_get(cfuhash_table_t *ht, const char *key) {
 	void *r = NULL;
 	int rv = 0;
@@ -428,7 +428,7 @@ cfuhash_get(cfuhash_table_t *ht, const char *key) {
 }
 
 /* Returns 1 if an entry exists in the table for the given key, 0 otherwise */
-extern int
+int
 cfuhash_exists_data(cfuhash_table_t *ht, const void *key, size_t key_size) {
 	void *r = NULL;
 	int rv = cfuhash_get_data(ht, key, key_size, &r, NULL);
@@ -437,7 +437,7 @@ cfuhash_exists_data(cfuhash_table_t *ht, const void *key, size_t key_size) {
 }
 
 /* Same as cfuhash_exists_data(), except assumes key is a null-terminated string */
-extern int
+int
 cfuhash_exists(cfuhash_table_t *ht, const char *key) {
 	return cfuhash_exists_data(ht, (const void *)key, -1);
 }
@@ -448,7 +448,7 @@ cfuhash_exists(cfuhash_table_t *ht, const char *key) {
  value is zero.  If a new entry is created for the key, the function
  returns 1.
 */
-extern int
+int
 cfuhash_put_data(cfuhash_table_t *ht, const void *key, size_t key_size, void *data,
 	size_t data_size, void **r) {
 	unsigned int hv = 0;
@@ -499,7 +499,7 @@ cfuhash_put_data(cfuhash_table_t *ht, const void *key, size_t key_size, void *da
  null-terminated string, and the old value is returned if it existed,
  otherwise NULL is returned.
 */
-extern void *
+void *
 cfuhash_put(cfuhash_table_t *ht, const char *key, void *data) {
 	void *r = NULL;
 	if (!cfuhash_put_data(ht, (const void *)key, -1, data, 0, &r)) {
@@ -508,7 +508,7 @@ cfuhash_put(cfuhash_table_t *ht, const char *key, void *data) {
 	return NULL;
 }
 
-extern void
+void
 cfuhash_clear(cfuhash_table_t *ht) {
 	cfuhash_entry *he = NULL;
 	cfuhash_entry *hep = NULL;
@@ -538,7 +538,7 @@ cfuhash_clear(cfuhash_table_t *ht) {
 
 }
 
-extern void *
+void *
 cfuhash_delete_data(cfuhash_table_t *ht, const void *key, size_t key_size) {
 	unsigned int hv = 0;
 	cfuhash_entry *he = NULL;
@@ -579,12 +579,12 @@ cfuhash_delete_data(cfuhash_table_t *ht, const void *key, size_t key_size) {
 	return r;
 }
 
-extern void *
+void *
 cfuhash_delete(cfuhash_table_t *ht, const char *key) {
 	return cfuhash_delete_data(ht, key, -1);
 }
 
-extern void **
+void **
 cfuhash_keys_data(cfuhash_table_t *ht, size_t *num_keys, size_t **key_sizes, int fast) {
 	size_t *key_lengths = NULL;
 	void **keys = NULL;
@@ -630,12 +630,12 @@ cfuhash_keys_data(cfuhash_table_t *ht, size_t *num_keys, size_t **key_sizes, int
 	return keys;
 }
 
-extern void **
+void **
 cfuhash_keys(cfuhash_table_t *ht, size_t *num_keys, int fast) {
 	return cfuhash_keys_data(ht, num_keys, NULL, fast);
 }
 
-extern int
+int
 cfuhash_each_data(cfuhash_table_t *ht, void **key, size_t *key_size, void **data,
 	size_t *data_size) {
 
@@ -645,7 +645,7 @@ cfuhash_each_data(cfuhash_table_t *ht, void **key, size_t *key_size, void **data
 	return cfuhash_next_data(ht, key, key_size, data, data_size);
 }
 
-extern int
+int
 cfuhash_next_data(cfuhash_table_t *ht, void **key, size_t *key_size, void **data,
 	size_t *data_size) {
 
@@ -687,7 +687,7 @@ _cfuhash_destroy_entry(cfuhash_table_t *ht, cfuhash_entry *he, cfuhash_free_fn_t
 	free(he);
 }
 
-extern size_t
+size_t
 cfuhash_foreach_remove(cfuhash_table_t *ht, cfuhash_remove_fn_t r_fn, cfuhash_free_fn_t ff,
 					   void *arg) {
 	cfuhash_entry *entry = NULL;
@@ -732,7 +732,7 @@ cfuhash_foreach_remove(cfuhash_table_t *ht, cfuhash_remove_fn_t r_fn, cfuhash_fr
 	return num_removed;
 }
 
-extern size_t
+size_t
 cfuhash_foreach(cfuhash_table_t *ht, cfuhash_foreach_fn_t fe_fn, void *arg) {
 	cfuhash_entry *entry = NULL;
 	size_t hv = 0;
@@ -761,19 +761,19 @@ cfuhash_foreach(cfuhash_table_t *ht, cfuhash_foreach_fn_t fe_fn, void *arg) {
 	return num_accessed;
 }
 
-extern int
+int
 cfuhash_each(cfuhash_table_t *ht, char **key, void **data) {
 	size_t key_size = 0;
 	return cfuhash_each_data(ht, (void **)key, &key_size, data, NULL);
 }
 
-extern int
+int
 cfuhash_next(cfuhash_table_t *ht, char **key, void **data) {
 	size_t key_size = 0;
 	return cfuhash_next_data(ht, (void **)key, &key_size, data, NULL);
 }
 
-extern int
+int
 cfuhash_destroy_with_free_fn(cfuhash_table_t *ht, cfuhash_free_fn_t ff) {
 	size_t i;
 	if (!ht) return 0;
@@ -799,7 +799,7 @@ cfuhash_destroy_with_free_fn(cfuhash_table_t *ht, cfuhash_free_fn_t ff) {
 	return 1;
 }
 
-extern int
+int
 cfuhash_destroy(cfuhash_table_t *ht) {
 	return cfuhash_destroy_with_free_fn(ht, NULL);
 }
@@ -818,7 +818,7 @@ _pretty_print_foreach(void *key, size_t key_size, void *data, size_t data_size, 
 	return 0;
 }
 
-extern int
+int
 cfuhash_pretty_print(cfuhash_table_t *ht, FILE *fp) {
 	int rv = 0;
 	_pretty_print_arg parg;
@@ -836,7 +836,7 @@ cfuhash_pretty_print(cfuhash_table_t *ht, FILE *fp) {
 	return rv;
 }
 
-extern int
+int
 cfuhash_rehash(cfuhash_table_t *ht) {
 	size_t new_size, i;
 	cfuhash_entry **new_buckets = NULL;
@@ -869,19 +869,19 @@ cfuhash_rehash(cfuhash_table_t *ht) {
 	return 1;
 }
 
-extern size_t
+size_t
 cfuhash_num_entries(cfuhash_table_t *ht) {
 	if (!ht) return 0;
 	return ht->entries;
 }
 
-extern size_t
+size_t
 cfuhash_num_buckets(cfuhash_table_t *ht) {
 	if (!ht) return 0;
 	return ht->num_buckets;
 }
 
-extern size_t
+size_t
 cfuhash_num_buckets_used(cfuhash_table_t *ht) {
 	size_t i = 0;
 	size_t count = 0;
@@ -897,7 +897,7 @@ cfuhash_num_buckets_used(cfuhash_table_t *ht) {
 	return count;
 }
 
-extern char *
+char *
 cfuhash_bencode_strings(cfuhash_table_t *ht) {
 	cfustring_t *bencoded = cfustring_new_with_initial_size(16);
 	char **keys = NULL;

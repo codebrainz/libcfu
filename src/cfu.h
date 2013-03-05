@@ -63,13 +63,13 @@ typedef enum { libcfu_t_none = 0, libcfu_t_hash_table, libcfu_t_list, libcfu_t_s
 
 typedef struct libcfu_item libcfu_item_t;
 
-extern libcfu_type cfu_get_type(void *item);
-extern int cfu_is_hash(void *item);
-extern int cfu_is_list(void *item);
-extern int cfu_is_string(void *item);
-extern int cfu_is_time(void *item);
+libcfu_type cfu_get_type(void *item);
+int cfu_is_hash(void *item);
+int cfu_is_list(void *item);
+int cfu_is_string(void *item);
+int cfu_is_time(void *item);
 int cfu_is_timer(void *item);
-extern int cfu_is_conf(void *item);
+int cfu_is_conf(void *item);
 
 CFU_END_DECLS
 

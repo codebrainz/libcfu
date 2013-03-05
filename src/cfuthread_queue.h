@@ -62,7 +62,7 @@ typedef void (*cfuthread_queue_cleanup_t)(void *arg);
 /* Creates a new thread queue structure that will run the given
  * function when a request is received.
 */
-extern cfuthread_queue_t * cfuthread_queue_new(cfuthread_queue_fn_t fn);
+cfuthread_queue_t * cfuthread_queue_new(cfuthread_queue_fn_t fn);
 
 /* Same as cfuthread_queue_new(), but with an initialization
  * function that gets called with the argument init_arg when the
@@ -70,7 +70,7 @@ extern cfuthread_queue_t * cfuthread_queue_new(cfuthread_queue_fn_t fn);
  * the argument cleanup_arg when the thread exits, e.g., when
  * cfuthread_queue_destroy() is called.
  */
-extern cfuthread_queue_t * cfuthread_queue_new_with_cleanup(cfuthread_queue_fn_t fn,
+cfuthread_queue_t * cfuthread_queue_new_with_cleanup(cfuthread_queue_fn_t fn,
 	cfuthread_queue_init_t init_fn, void *init_arg, cfuthread_queue_cleanup_t cleanup_fn,
 	void *cleanup_arg);
 
@@ -78,12 +78,12 @@ extern cfuthread_queue_t * cfuthread_queue_new_with_cleanup(cfuthread_queue_fn_t
  * function fn given to cfuthread_queue_new when it reaches the
  * front of the queue.
  */
-extern void * cfuthread_queue_make_request(cfuthread_queue_t * tq, void *data);
+void * cfuthread_queue_make_request(cfuthread_queue_t * tq, void *data);
 
 /* Free up resources used by the queue, in addition to canceling
  * the thread.
  */
-extern void cfuthread_queue_destroy(cfuthread_queue_t *);
+void cfuthread_queue_destroy(cfuthread_queue_t *);
 
 CFU_END_DECLS
 

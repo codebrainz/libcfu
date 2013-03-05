@@ -82,34 +82,34 @@ typedef struct cfuconf cfuconf_t;
  * and error is not NULL, it will be set to an error message
  * (which must be free()'d by the caller).
  */
-extern int cfuconf_parse_file(char *file_path, cfuconf_t **conf, char **error);
+int cfuconf_parse_file(char *file_path, cfuconf_t **conf, char **error);
 
 /* Same as cfuconf_parse_file(), except assume the contents of the
  * file are already in buffer.
 */
-extern int cfuconf_parse_buffer(char *buffer, cfuconf_t **conf, char **error);
+int cfuconf_parse_buffer(char *buffer, cfuconf_t **conf, char **error);
 
 /* Free all resources used by the cfuconf_t structure */
-extern void cfuconf_destroy(cfuconf_t *conf);
+void cfuconf_destroy(cfuconf_t *conf);
 
 /* Get a hash of containers at the top level of conf */
-extern cfuhash_table_t * cfuconf_get_containers(cfuconf_t *conf);
+cfuhash_table_t * cfuconf_get_containers(cfuconf_t *conf);
 
 /* Get a hash of directives at the to level */
-extern cfuhash_table_t * cfuconf_get_directives(cfuconf_t *conf);
+cfuhash_table_t * cfuconf_get_directives(cfuconf_t *conf);
 
 /* Get the value of the given directive, assuming there is only one argument */
-extern int cfuconf_get_directive_one_arg(cfuconf_t *conf, char *directive, char **rvalue);
+int cfuconf_get_directive_one_arg(cfuconf_t *conf, char *directive, char **rvalue);
 
 /* Get the value of the given directive, assuming there are two arguments */
-extern int cfuconf_get_directive_two_args(cfuconf_t *conf, char *directive, char **rvalue,
+int cfuconf_get_directive_two_args(cfuconf_t *conf, char *directive, char **rvalue,
 	char **rvalue2);
 
 /* Get the value of the given directives, with n arguments */
-extern int cfuconf_get_directive_n_args(cfuconf_t *conf, char *directive, size_t n, ...);
+int cfuconf_get_directive_n_args(cfuconf_t *conf, char *directive, size_t n, ...);
 
 /* Print out a representation of the parsed configuration */
-extern void cfuconf_pretty_print_conf(cfuconf_t *conf, FILE *fp, size_t indent_level);
+void cfuconf_pretty_print_conf(cfuconf_t *conf, FILE *fp, size_t indent_level);
 
 CFU_END_DECLS
 

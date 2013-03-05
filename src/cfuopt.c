@@ -71,7 +71,7 @@ typedef struct cfuopt_list_entry {
 	cfulist_t *param_names;
 } cfuopt_list_entry_t;
 
-extern cfuopt_t *
+cfuopt_t *
 cfuopt_new(void) {
 	cfuopt_t *context = calloc(1, sizeof(cfuopt_t));
 	context->option_list = cfulist_new();
@@ -194,7 +194,7 @@ _add_to_option_map(void *data, size_t data_size, void *arg) {
 	return 0;
 }
 
-extern void
+void
 cfuopt_add_entry(cfuopt_t *context, const char *opt_str, void *arg_data,
 	const char *description, const char *arg_description) {
 	cfuopt_list_entry_t *entry = calloc(1, sizeof(cfuopt_list_entry_t));
@@ -306,7 +306,7 @@ _update_extra(void *data, size_t data_size, void *arg) {
 	return 0;
 }
 
-extern void
+void
 cfuopt_parse(cfuopt_t *context, int *argc, char ***argv, char **error) {
 	int i = 0;
 	char **args = *argv;
@@ -419,7 +419,7 @@ _opt_list_free_fn(void *data) {
 	free(data);
 }
 
-extern void
+void
 cfuopt_destroy(cfuopt_t *context) {
 	if (!context) return;
 	cfulist_destroy_with_free_fn(context->option_list, _opt_list_free_fn);
@@ -469,7 +469,7 @@ _cfuopt_pretty_print_foreach(void *key, size_t key_size, void *data, size_t data
 	return 0;
 }
 
-extern void
+void
 cfuopt_pretty_print(cfuopt_t *context) {
 	cfuhash_foreach(context->option_map, _cfuopt_pretty_print_foreach, NULL);
 }
@@ -479,7 +479,7 @@ _list_simple_free_fn(void *data) {
 	free(data);
 }
 
-extern void *
+void *
 _param_map_fn(void *data, size_t data_size, void *arg, size_t *new_data_size) {
 	char *name = (char *)data;
 	size_t len = 0;
@@ -598,7 +598,7 @@ _desc_list_free(void *data) {
 	free(data);
 }
 
-extern char *
+char *
 cfuopt_get_help_str(cfuopt_t *context) {
 	cfulist_t *desc_list = NULL;
 	size_t max_width = 0;

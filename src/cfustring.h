@@ -47,70 +47,70 @@ CFU_BEGIN_DECLS
 typedef struct cfustring cfustring_t;
 
 /* Returns a new String. */
-extern cfustring_t * cfustring_new(void);
+cfustring_t * cfustring_new(void);
 
 /* Returns a new String, but preallocates a buffer of the given size. */
-extern cfustring_t * cfustring_new_with_initial_size(size_t initial_size);
+cfustring_t * cfustring_new_with_initial_size(size_t initial_size);
 
 /* Returns a new String initalized with the given string. */
-extern cfustring_t * cfustring_new_from_string(const char *string);
+cfustring_t * cfustring_new_from_string(const char *string);
 
 /* Overwrite anything currently in cfu_str with string. */
-extern int cfustring_dup(cfustring_t *cfu_str, const char *string);
+int cfustring_dup(cfustring_t *cfu_str, const char *string);
 
 /* Truncate the string. */
-extern int cfustring_clear(cfustring_t *cfu_str);
+int cfustring_clear(cfustring_t *cfu_str);
 
 /* Append str to the end of the buffer in cfu_str. */
-extern int cfustring_append(cfustring_t *cfu_str, const char *str);
+int cfustring_append(cfustring_t *cfu_str, const char *str);
 
 /* Get the buffer used to hold the string.  Do not free() it, as it is
  * used directly by cfustring and will be destroyed when
  * cfustring_destroy() is called.
  */
-extern char * cfustring_get_buffer(cfustring_t *cfu_str);
+char * cfustring_get_buffer(cfustring_t *cfu_str);
 
 /* Same as cfustring_get_buffer(), except return a copy of the string.
  * Caller is responsible for deallocating the buffer with free().
  */
-extern char * cfustring_get_buffer_copy(cfustring_t *cfu_str);
+char * cfustring_get_buffer_copy(cfustring_t *cfu_str);
 
 /* Split cfu_str on one or more delimiting strings, e.g.,
  * cfustring_split(cfu_str, 2, 0, "\r\n", "\n").  Use a limit > 0 if
  * you want to only get back a certain number of strings and ignore
  * any extra delimiters.
  */
-extern cfustring_t ** cfustring_split(cfustring_t *cfu_str, size_t *num_strings,
+cfustring_t ** cfustring_split(cfustring_t *cfu_str, size_t *num_strings,
 	size_t limit, ...);
 
 /* Same as cfustring_split(), except return an array of C-strings.
  * Caller is responsible for deallocating the buffers.
  */
-extern char ** cfustring_split_to_c_str(cfustring_t *cfu_str, size_t *num_strings,
+char ** cfustring_split_to_c_str(cfustring_t *cfu_str, size_t *num_strings,
 	size_t limit, ...);
 
 /* Free all resources allocated by cfu_str. */
-extern int cfustring_destroy(cfustring_t *cfu_str);
+int cfustring_destroy(cfustring_t *cfu_str);
 
 /* Duplicate the C string str.  Caller must free with free(). */
-extern char * cfustring_dup_c_str(const char *str);
+char * cfustring_dup_c_str(const char *str);
 
 /* Same as cfustring_dup_c_str(), but only copy at most n chars */
-extern char * cfustring_dup_c_str_n(const char *str, size_t n);
+char * cfustring_dup_c_str_n(const char *str, size_t n);
 
 /* Like sprintf(), but writes to a self-extending string. */
-extern size_t cfustring_sprintf(cfustring_t *cfu_str, const char *fmt, ...);
+size_t cfustring_sprintf(cfustring_t *cfu_str, const char *fmt, ...);
 
 /* Like vsprintf(), but writes to a self-extending string. */
-extern size_t cfustring_vsprintf(cfustring_t *cfu_str, const char *fmt, va_list ap);
+size_t cfustring_vsprintf(cfustring_t *cfu_str, const char *fmt, va_list ap);
 
 /* Similar to sprintf(), but allocates a C string of the
  * appropriate size for you and returns it.
  */
-extern char * cfustring_sprintf_c_str(const char *fmt, ...);
+char * cfustring_sprintf_c_str(const char *fmt, ...);
 
 /* Like cfustring_split_to_c_str(), but split a char * instead of a cfustring_t *. */
-extern char ** cfustring_c_str_split(const char *c_str, size_t *num_strings, size_t limit, ...);
+char ** cfustring_c_str_split(const char *c_str, size_t *num_strings, size_t limit, ...);
 
 CFU_END_DECLS
 

@@ -50,30 +50,30 @@ typedef struct cfutime {
 	struct timeval end_tv;
 } cfutime;
 
-extern cfutime_t *
+cfutime_t *
 cfutime_new(void) {
 	cfutime_t *time = calloc(1, sizeof(cfutime));
 	time->type = libcfu_t_time;
 	return time;
 }
 
-extern void
+void
 cfutime_begin(cfutime_t *time) {
 	gettimeofday(&(time->begin_tv), NULL);
 }
 
-extern void
+void
 cfutime_end(cfutime_t *time) {
 	gettimeofday(&(time->end_tv), NULL);
 }
 
-extern double
+double
 cfutime_elapsed(cfutime_t *time) {
 	return (double)time->end_tv.tv_sec + ((double)time->end_tv.tv_usec)/1000000 -
 		((double)time->begin_tv.tv_sec + ((double)time->begin_tv.tv_usec)/1000000);
 }
 
-extern void
+void
 cfutime_free(cfutime_t *time) {
 	free(time);
 }

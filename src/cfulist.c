@@ -71,7 +71,7 @@ struct cfulist {
 	cfulist_free_fn_t free_fn;
 };
 
-extern cfulist_t *
+cfulist_t *
 cfulist_new(void) {
 	cfulist_t *list = calloc(1, sizeof(cfulist_t));
 #ifdef HAVE_PTHREAD_H
@@ -81,14 +81,14 @@ cfulist_new(void) {
 	return list;
 }
 
-extern cfulist_t *
+cfulist_t *
 cfulist_new_with_free_fn(cfulist_free_fn_t free_fn) {
 	cfulist_t *list = cfulist_new();
 	list->free_fn = free_fn;
 	return list;
 }
 
-extern size_t
+size_t
 cfulist_num_entries(cfulist_t *list) {
 	return list->num_entries;
 }
@@ -112,7 +112,7 @@ new_list_entry() {
 	return calloc(1, sizeof(cfulist_entry));
 }
 
-extern int
+int
 cfulist_push_data(cfulist_t *list, void *data, size_t data_size) {
 	cfulist_entry *entry = new_list_entry();
 	if (!entry) return 0;
@@ -138,7 +138,7 @@ cfulist_push_data(cfulist_t *list, void *data, size_t data_size) {
 	return 1;
 }
 
-extern int
+int
 cfulist_pop_data(cfulist_t *list, void **data, size_t *data_size) {
 	if (!list) {
 		*data = NULL;
@@ -176,7 +176,7 @@ cfulist_pop_data(cfulist_t *list, void **data, size_t *data_size) {
 	return 0;
 }
 
-extern int
+int
 cfulist_unshift_data(cfulist_t *list, void *data, size_t data_size) {
 	cfulist_entry *entry = new_list_entry();
 	if (!entry) return 0;
@@ -202,7 +202,7 @@ cfulist_unshift_data(cfulist_t *list, void *data, size_t data_size) {
 	return 1;
 }
 
-extern int
+int
 cfulist_shift_data(cfulist_t *list, void **data, size_t *data_size) {
 	int rv = 0;
 	if (!list) {
@@ -241,18 +241,18 @@ cfulist_shift_data(cfulist_t *list, void **data, size_t *data_size) {
 	return rv;
 }
 
-extern int
+int
 cfulist_enqueue_data(cfulist_t *list, void *data, size_t data_size) {
 	return cfulist_push_data(list, data, data_size);
 }
 
 
-extern int
+int
 cfulist_dequeue_data(cfulist_t *list, void **data, size_t *data_size) {
 	return cfulist_shift_data(list, data, data_size);
 }
 
-extern int
+int
 cfulist_first_data(cfulist_t *list, void **data, size_t *data_size) {
 	int rv = 0;
 	if (!list) {
@@ -274,7 +274,7 @@ cfulist_first_data(cfulist_t *list, void **data, size_t *data_size) {
 	return rv;
 }
 
-extern int
+int
 cfulist_last_data(cfulist_t *list, void **data, size_t *data_size) {
 	int rv = 0;
 	if (!list) {
@@ -296,7 +296,7 @@ cfulist_last_data(cfulist_t *list, void **data, size_t *data_size) {
 	return rv;
 }
 
-extern int
+int
 cfulist_nth_data(cfulist_t *list, void **data, size_t *data_size, size_t n) {
 	int rv = 0;
 	size_t i = 0;
@@ -324,20 +324,20 @@ cfulist_nth_data(cfulist_t *list, void **data, size_t *data_size, size_t n) {
 	return rv;
 }
 
-extern void
+void
 cfulist_reset_each(cfulist_t *list) {
 	if (!list) return;
 	list->each_ptr = list->entries;
 }
 
-extern int
+int
 cfulist_each_data(cfulist_t *list, void **data, size_t *data_size) {
 	if (!list) return 0;
 	cfulist_reset_each(list);
 	return cfulist_next_data(list, data, data_size);
 }
 
-extern int
+int
 cfulist_next_data(cfulist_t *list, void **data, size_t *data_size) {
 	if (!list) return 0;
 	*data = NULL;
@@ -350,7 +350,7 @@ cfulist_next_data(cfulist_t *list, void **data, size_t *data_size) {
 	return 0;
 }
 
-extern size_t
+size_t
 cfulist_foreach(cfulist_t *list, cfulist_foreach_fn_t fe_fn, void *arg) {
 	cfulist_entry *entry = NULL;
 	size_t num_processed = 0;
@@ -384,7 +384,7 @@ _cfulist_map_foreach(void *data, size_t data_size, void *arg) {
 	return 0;
 }
 
-extern cfulist_t *
+cfulist_t *
 cfulist_map(cfulist_t *list, cfulist_map_fn_t map_fn, void *arg) {
 	cfulist_t *new_list = cfulist_new();
 	_cfulist_map_ds ds;
@@ -398,12 +398,12 @@ cfulist_map(cfulist_t *list, cfulist_map_fn_t map_fn, void *arg) {
 
 /* For when you don't care about the data size */
 
-extern int
+int
 cfulist_push(cfulist_t *list, void *data) {
 	return cfulist_push_data(list, data, 0);
 }
 
-extern void *
+void *
 cfulist_pop(cfulist_t *list) {
 	void *data = NULL;
 	if (cfulist_pop_data(list, &data, NULL)) {
@@ -412,12 +412,12 @@ cfulist_pop(cfulist_t *list) {
 	return NULL;
 }
 
-extern int
+int
 cfulist_unshift(cfulist_t *list, void *data) {
 	return cfulist_unshift_data(list, data, 0);
 }
 
-extern void *
+void *
 cfulist_shift(cfulist_t *list) {
 	void *data = NULL;
 	if (cfulist_shift_data(list, &data, NULL)) {
@@ -426,24 +426,24 @@ cfulist_shift(cfulist_t *list) {
 	return NULL;
 }
 
-extern int
+int
 cfulist_enqueue(cfulist_t *list, void *data) {
 	return cfulist_push(list, data);
 }
 
-extern void *
+void *
 cfulist_dequeue(cfulist_t *list) {
 	return cfulist_shift(list);
 }
 
 /* Dealing with strings */
 
-extern int
+int
 cfulist_push_string(cfulist_t *list, char *data) {
 	return cfulist_push_data(list, (void *)data, -1);
 }
 
-extern char *
+char *
 cfulist_pop_string(cfulist_t *list) {
 	void *data = NULL;
 	if (cfulist_pop_data(list, &data, NULL)) {
@@ -452,12 +452,12 @@ cfulist_pop_string(cfulist_t *list) {
 	return NULL;
 }
 
-extern int
+int
 cfulist_unshift_string(cfulist_t *list, char *data) {
 	return cfulist_unshift_data(list, (void *)data, -1);
 }
 
-extern char *
+char *
 cfulist_shift_string(cfulist_t *list) {
 	void *data = NULL;
 	if (cfulist_shift_data(list, &data, NULL)) {
@@ -466,12 +466,12 @@ cfulist_shift_string(cfulist_t *list) {
 	return NULL;
 }
 
-extern int
+int
 cfulist_enqueue_string(cfulist_t *list, char *data) {
 	return cfulist_push_string(list, data);
 }
 
-extern char *
+char *
 cfulist_dequeue_string(cfulist_t *list) {
 	return cfulist_shift_string(list);
 }
@@ -493,7 +493,7 @@ _join_foreach_fn(void *data, size_t data_size, void *arg) {
 	return 0;
 }
 
-extern char *
+char *
 cfulist_join(cfulist_t *list, const char *delimiter) {
 	_join_foreach_struct *arg = calloc(1, sizeof(_join_foreach_struct));
 	char *str = NULL;
@@ -509,7 +509,7 @@ cfulist_join(cfulist_t *list, const char *delimiter) {
 	return str;
 }
 
-extern void
+void
 cfulist_destroy(cfulist_t *list) {
 	if (!list) return;
 
@@ -536,7 +536,7 @@ cfulist_destroy(cfulist_t *list) {
 	free(list);
 }
 
-extern void
+void
 cfulist_destroy_with_free_fn(cfulist_t *list, cfulist_free_fn_t free_fn) {
 	if (!list) return;
 

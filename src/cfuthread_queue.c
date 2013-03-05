@@ -110,7 +110,7 @@ _run_queue(void *arg) {
 
 }
 
-extern cfuthread_queue_t *
+cfuthread_queue_t *
 cfuthread_queue_new_with_cleanup(cfuthread_queue_fn_t fn, cfuthread_queue_init_t init_fn,
 	void *init_arg, cfuthread_queue_cleanup_t cleanup_fn,
 	void *cleanup_arg) {
@@ -134,12 +134,12 @@ cfuthread_queue_new_with_cleanup(cfuthread_queue_fn_t fn, cfuthread_queue_init_t
 	return tq;
 }
 
-extern cfuthread_queue_t *
+cfuthread_queue_t *
 cfuthread_queue_new(cfuthread_queue_fn_t fn) {
 	return cfuthread_queue_new_with_cleanup(fn, NULL, NULL, NULL, NULL);
 }
 
-extern void *
+void *
 cfuthread_queue_make_request(cfuthread_queue_t * tq, void *data) {
 	cfuthread_queue_entry *request = _new_cfuthread_entry(data);
 
@@ -158,7 +158,7 @@ cfuthread_queue_make_request(cfuthread_queue_t * tq, void *data) {
 	return data;
 }
 
-extern void
+void
 cfuthread_queue_destroy(cfuthread_queue_t *tq) {
 	void *rv = NULL;
 

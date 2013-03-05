@@ -45,19 +45,19 @@ CFU_BEGIN_DECLS
 typedef struct cfutime cfutime_t;
 
 /* Return a new cfutime structure. */
-extern cfutime_t *cfutime_new(void);
+cfutime_t *cfutime_new(void);
 
 /* Start the timer. */
-extern void cfutime_begin(cfutime_t *time);
+void cfutime_begin(cfutime_t *time);
 
 /* Stop the timer. */
-extern void cfutime_end(cfutime_t *time);
+void cfutime_end(cfutime_t *time);
 
 /* Return the number of seconds elapsed as a double. */
-extern double cfutime_elapsed(cfutime_t *time);
+double cfutime_elapsed(cfutime_t *time);
 
 /* Deallocate resources allocated for time. */
-extern void cfutime_free(cfutime_t *time);
+void cfutime_free(cfutime_t *time);
 
 CFU_END_DECLS
 
