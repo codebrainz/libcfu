@@ -53,7 +53,6 @@ CFU_BEGIN_DECLS
  * cfuthread_queue_new() function.
  */
 
-struct cfuthread_queue;
 typedef struct cfuthread_queue cfuthread_queue_t;
 
 typedef void * (*cfuthread_queue_fn_t)(void *arg);

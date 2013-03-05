@@ -42,7 +42,6 @@
 
 CFU_BEGIN_DECLS
 
-struct cfutime;
 typedef struct cfutime cfutime_t;
 
 /* Return a new cfutime structure. */

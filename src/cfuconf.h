@@ -45,7 +45,6 @@
 
 CFU_BEGIN_DECLS
 
-struct cfuconf;
 typedef struct cfuconf cfuconf_t;
 
 /* Apache-style conf files contain directives and containers.

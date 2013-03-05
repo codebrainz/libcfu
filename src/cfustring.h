@@ -44,7 +44,6 @@
 
 CFU_BEGIN_DECLS
 
-struct cfustring;
 typedef struct cfustring cfustring_t;
 
 /* Returns a new String. */

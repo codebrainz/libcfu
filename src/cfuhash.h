@@ -45,7 +45,6 @@
 CFU_BEGIN_DECLS
 
 /* The hash table itself. */
-struct cfuhash_table;
 typedef struct cfuhash_table cfuhash_table_t;
 
 /* Prototype for a pointer to a hashing function. */

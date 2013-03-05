@@ -42,7 +42,6 @@
 
 CFU_BEGIN_DECLS
 
-struct cfuopt_struct;
 typedef struct cfuopt_struct cfuopt_t;
 
 /* Returns a new options context */

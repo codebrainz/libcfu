@@ -44,7 +44,6 @@
 CFU_BEGIN_DECLS
 
 /* The list itself. */
-struct cfulist;
 typedef struct cfulist cfulist_t;
 
 /* Function called for each element in the list when passed to

@@ -53,7 +53,6 @@ CFU_BEGIN_DECLS
 typedef enum { libcfu_t_none = 0, libcfu_t_hash_table, libcfu_t_list, libcfu_t_string,
 			   libcfu_t_time, libcfu_t_conf } libcfu_type;
 
-struct libcfu_item;
 typedef struct libcfu_item libcfu_item_t;
 
 extern libcfu_type cfu_get_type(void *item);
