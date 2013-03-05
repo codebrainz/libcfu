@@ -35,8 +35,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _LIBCFU_H_
-#define _LIBCFU_H_
+#ifndef LIBCFU_H_
+#define LIBCFU_H_
 
 #ifdef __cplusplus
 #define CFU_BEGIN_DECLS extern "C" {

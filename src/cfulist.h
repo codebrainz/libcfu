@@ -35,8 +35,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _CFU_LIST_
-#define _CFU_LIST_
+#ifndef CFU_LIST_
+#define CFU_LIST_
 
 #include <cfu.h>
 #include <stddef.h>

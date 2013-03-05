@@ -35,8 +35,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _CFU_CONF_H_
-#define _CFU_CONF_H_
+#ifndef CFU_CONF_H_
+#define CFU_CONF_H_
 
 #include <cfu.h>
 #include <cfuhash.h>

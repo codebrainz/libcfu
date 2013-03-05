@@ -35,8 +35,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _CFU_TIME_H_
-#define _CFU_TIME_H_
+#ifndef CFU_TIME_H_
+#define CFU_TIME_H_
 
 #include <cfu.h>
 

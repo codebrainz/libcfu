@@ -35,8 +35,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _CFUTHREAD_QUEUE_H
-#define _CFUTHREAD_QUEUE_H
+#ifndef CFUTHREAD_QUEUE_H
+#define CFUTHREAD_QUEUE_H
 
 #include <cfu.h>
 

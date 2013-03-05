@@ -37,8 +37,8 @@
 
 #include <cfu.h>
 
-#ifndef _CFU_OPT_H_
-#define _CFU_OPT_H_
+#ifndef CFU_OPT_H_
+#define CFU_OPT_H_
 
 CFU_BEGIN_DECLS
 

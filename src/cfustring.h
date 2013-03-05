@@ -35,8 +35,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _CFU_STRING_H_
-#define _CFU_STRING_H_
+#ifndef CFU_STRING_H_
+#define CFU_STRING_H_
 
 #include <cfu.h>
 #include <stdarg.h>
