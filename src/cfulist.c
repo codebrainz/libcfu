@@ -73,7 +73,7 @@ struct cfulist {
 
 extern cfulist_t *
 cfulist_new() {
-	cfulist_t *list = (cfulist_t *)calloc(1, sizeof(cfulist_t));
+	cfulist_t *list = calloc(1, sizeof(cfulist_t));
 #ifdef HAVE_PTHREAD_H
 	pthread_mutex_init(&list->mutex, NULL);
 #endif
@@ -109,7 +109,7 @@ unlock_list(cfulist_t *list) {
 
 static CFU_INLINE cfulist_entry *
 new_list_entry() {
-	return (cfulist_entry *)calloc(1, sizeof(cfulist_entry));
+	return calloc(1, sizeof(cfulist_entry));
 }
 
 extern int
@@ -495,7 +495,7 @@ _join_foreach_fn(void *data, size_t data_size, void *arg) {
 
 extern char *
 cfulist_join(cfulist_t *list, const char *delimiter) {
-	_join_foreach_struct *arg = (_join_foreach_struct *)calloc(1, sizeof(_join_foreach_struct));
+	_join_foreach_struct *arg = calloc(1, sizeof(_join_foreach_struct));
 	char *str = NULL;
 
 	arg->delimiter = delimiter;

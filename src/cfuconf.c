@@ -79,7 +79,7 @@ typedef struct cfuconf_stack_entry {
 
 static cfuconf_t *
 cfuconf_new() {
-	cfuconf_t *conf = (cfuconf_t *)calloc(1, sizeof(cfuconf_t));
+	cfuconf_t *conf = calloc(1, sizeof(cfuconf_t));
 	conf->type = libcfu_t_conf;
 	conf->containers = cfuhash_new_with_flags(CFUHASH_IGNORE_CASE);
 	conf->directives = cfuhash_new_with_flags(CFUHASH_IGNORE_CASE);
@@ -244,8 +244,7 @@ cfuconf_get_directive_n_args(cfuconf_t *conf, char *directive, size_t n, ...) {
 /*
 static cfuconf_stack_entry_t *
 new_stack_entry(cfuhash_table_t *ht, char *container_type, char *container_name) {
-	cfuconf_stack_entry_t *entry =
-		(cfuconf_stack_entry_t *)calloc(1, sizeof(cfuconf_stack_entry_t));
+	cfuconf_stack_entry_t *entry = calloc(1, sizeof(cfuconf_stack_entry_t));
 	entry->ht = ht;
 	entry->container_type = container_type;
 	entry->container_name = container_name;
@@ -350,8 +349,8 @@ _dup_c_str_n_drop_escape(const char *str, size_t n, char escape) {
 
 	if (n == 0) return NULL;
 
-	ptr = (char *)str;
-	ns_ptr = ns = (char *)calloc(len + 1, 1);
+	ptr = (char *)str; /* ? */
+	ns_ptr = ns = calloc(len + 1, 1);
 
 	last_char = *ptr;
 	for (ptr = (char *)str; ptr < end; ptr++) {
@@ -749,11 +748,11 @@ print_sub_container_foreach_fn(void *name, size_t key_size, void *data, size_t d
 
 static int
 print_container_foreach_fn(void *name, size_t key_size, void *data, size_t data_size, void *arg) {
-	directive_foreach_ds *ds = (directive_foreach_ds *)arg;
-	directive_foreach_ds *new_ds = (directive_foreach_ds *)calloc(1, sizeof(directive_foreach_ds));
+	directive_foreach_ds *ds = arg;
+	directive_foreach_ds *new_ds = calloc(1, sizeof(directive_foreach_ds));
 
 	memcpy(new_ds, ds, sizeof(directive_foreach_ds));
-	new_ds->name = (char *)name;
+	new_ds->name = name;
 
 	key_size = key_size;
 	data_size = data_size;
@@ -782,9 +781,9 @@ print_directive_list_foreach_fn(void *data, size_t data_size, void *arg) {
 
 static int
 print_conf_foreach_directive(void *name, size_t key_size, void *data, size_t data_size, void *arg) {
-	directive_foreach_ds *ds = (directive_foreach_ds *)arg;
-	cfulist_t *this_directive_list = (cfulist_t *)data;
-	directive_foreach_ds *new_ds = (directive_foreach_ds *)calloc(1, sizeof(directive_foreach_ds));
+	directive_foreach_ds *ds = arg;
+	cfulist_t *this_directive_list = data;
+	directive_foreach_ds *new_ds = calloc(1, sizeof(directive_foreach_ds));
 
 	key_size = key_size;
 	data_size = data_size;
@@ -802,7 +801,7 @@ print_conf_foreach_directive(void *name, size_t key_size, void *data, size_t dat
 
 static void
 print_conf(cfuconf_t *conf, size_t depth, FILE *fp) {
-	directive_foreach_ds *ds = (directive_foreach_ds *)calloc(1, sizeof(directive_foreach_ds));
+	directive_foreach_ds *ds = calloc(1, sizeof(directive_foreach_ds));
 	ds->depth = depth;
 	ds->fp = fp;
 

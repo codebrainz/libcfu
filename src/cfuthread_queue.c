@@ -64,8 +64,7 @@ typedef struct cfuthread_queue_entry {
 
 static cfuthread_queue_entry *
 _new_cfuthread_entry(void *data) {
-	cfuthread_queue_entry *entry =
-		(cfuthread_queue_entry *)calloc(1, sizeof(cfuthread_queue_entry));
+	cfuthread_queue_entry *entry = calloc(1, sizeof(cfuthread_queue_entry));
 	pthread_mutex_init(&entry->mutex, NULL);
 	pthread_cond_init(&entry->cv, NULL);
 	entry->data_in = data;
@@ -115,7 +114,7 @@ extern cfuthread_queue_t *
 cfuthread_queue_new_with_cleanup(cfuthread_queue_fn_t fn, cfuthread_queue_init_t init_fn,
 	void *init_arg, cfuthread_queue_cleanup_t cleanup_fn,
 	void *cleanup_arg) {
-	cfuthread_queue_t *tq = (cfuthread_queue_t *)calloc(1, sizeof(cfuthread_queue_t));
+	cfuthread_queue_t *tq = calloc(1, sizeof(cfuthread_queue_t));
 	pthread_mutex_init(&tq->mutex, NULL);
 	pthread_cond_init(&tq->cv, NULL);
 	tq->fn = fn;

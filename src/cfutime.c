@@ -52,7 +52,7 @@ typedef struct cfutime {
 
 extern cfutime_t *
 cfutime_new() {
-	cfutime_t *time = (cfutime_t *)calloc(1, sizeof(cfutime));
+	cfutime_t *time = calloc(1, sizeof(cfutime));
 	time->type = libcfu_t_time;
 	return time;
 }

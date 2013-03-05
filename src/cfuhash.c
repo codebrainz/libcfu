@@ -181,14 +181,14 @@ _cfuhash_new(size_t size, u_int32_t flags) {
 	cfuhash_table_t *ht;
 
 	size = hash_size(size);
-	ht = (cfuhash_table_t *)malloc(sizeof(cfuhash_table_t));
+	ht = malloc(sizeof(cfuhash_table_t));
 	memset(ht, '\000', sizeof(cfuhash_table_t));
 
 	ht->type = libcfu_t_hash_table;
 	ht->num_buckets = size;
 	ht->entries = 0;
 	ht->flags = flags;
-	ht->buckets = (cfuhash_entry **)calloc(size, sizeof(cfuhash_entry *));
+	ht->buckets = calloc(size, sizeof(cfuhash_entry *));
 
 #ifdef HAVE_PTHREAD_H
 	pthread_mutex_init(&ht->mutex, NULL);
@@ -359,7 +359,7 @@ hash_cmp(const void *key, size_t key_size, cfuhash_entry *he, unsigned int case_
 static CFU_INLINE cfuhash_entry *
 hash_add_entry(cfuhash_table_t *ht, unsigned int hv, const void *key, size_t key_size,
 	void *data, size_t data_size) {
-	cfuhash_entry *he = (cfuhash_entry *)calloc(1, sizeof(cfuhash_entry));
+	cfuhash_entry *he = calloc(1, sizeof(cfuhash_entry));
 
 	assert(hv < ht->num_buckets);
 
@@ -601,8 +601,8 @@ cfuhash_keys_data(cfuhash_table_t *ht, size_t *num_keys, size_t **key_sizes, int
 
 	if (! (ht->flags & CFUHASH_NO_LOCKING) ) lock_hash(ht);
 
-	if (key_sizes) key_lengths = (size_t *)calloc(ht->entries, sizeof(size_t));
-	keys = (void **)calloc(ht->entries, sizeof(void *));
+	if (key_sizes) key_lengths = calloc(ht->entries, sizeof(size_t));
+	keys = calloc(ht->entries, sizeof(void *));
 
 	for (bucket = 0; bucket < ht->num_buckets; bucket++) {
 		if ( (he = ht->buckets[bucket]) ) {
@@ -612,7 +612,7 @@ cfuhash_keys_data(cfuhash_table_t *ht, size_t *num_keys, size_t **key_sizes, int
 				if (fast) {
 					keys[entry_index] = he->key;
 				} else {
-					keys[entry_index] = (void *)calloc(he->key_size, 1);
+					keys[entry_index] = calloc(he->key_size, 1);
 					memcpy(keys[entry_index], he->key, he->key_size);
 				}
 				key_count++;
@@ -847,7 +847,7 @@ cfuhash_rehash(cfuhash_table_t *ht) {
 		unlock_hash(ht);
 		return 0;
 	}
-	new_buckets = (cfuhash_entry **)calloc(new_size, sizeof(cfuhash_entry *));
+	new_buckets = calloc(new_size, sizeof(cfuhash_entry *));
 
 	for (i = 0; i < ht->num_buckets; i++) {
 		cfuhash_entry *he = ht->buckets[i];

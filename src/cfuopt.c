@@ -73,7 +73,7 @@ typedef struct cfuopt_list_entry {
 
 extern cfuopt_t *
 cfuopt_new() {
-	cfuopt_t *context = (cfuopt_t *)calloc(1, sizeof(cfuopt_t));
+	cfuopt_t *context = calloc(1, sizeof(cfuopt_t));
 	context->option_list = cfulist_new();
 	context->option_map = cfuhash_new();
 	context->extra = cfulist_new();

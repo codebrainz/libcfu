@@ -68,10 +68,10 @@ cfustring_new() {
 
 extern cfustring_t *
 cfustring_new_with_initial_size(size_t initial_size) {
-	cfustring_t *cfu_str = (cfustring_t *)calloc(1, sizeof(cfustring_t));
+	cfustring_t *cfu_str = calloc(1, sizeof(cfustring_t));
 	cfu_str->type = libcfu_t_string;
 	if (initial_size > 0) {
-		cfu_str->str = (char *)calloc(initial_size, 1);
+		cfu_str->str = calloc(initial_size, 1);
 		cfu_str->max_size = initial_size;
 		cfu_str->used_size = 1;
 	}
@@ -129,7 +129,7 @@ cfustring_append_n(cfustring_t *cfu_str, const char *string, size_t n) {
 	}
 
 	if (!cfu_str->str) {
-		cfu_str->str = (char *)malloc(str_len + 1);
+		cfu_str->str = malloc(str_len + 1);
 		cfu_str->max_size = str_len + 1;
 		cfu_str->used_size = 1;
 		cfu_str->str[0] = '\000';
@@ -144,7 +144,7 @@ cfustring_append_n(cfustring_t *cfu_str, const char *string, size_t n) {
 		} else {
 			cfu_str->max_size = cfu_str->used_size + str_len + 1;
 		}
-		tmp = (char *)malloc(cfu_str->max_size);
+		tmp = malloc(cfu_str->max_size);
 		memcpy(tmp, cfu_str->str, cfu_str->used_size);
 		free(cfu_str->str);
 		cfu_str->str = tmp;
@@ -174,7 +174,7 @@ cfustring_get_buffer_copy(cfustring_t *cfu_str) {
 	char *buffer = NULL;
 	if (!cfu_str->str) return NULL;
 
-	buffer = (char *)calloc(cfu_str->used_size, 1);
+	buffer = calloc(cfu_str->used_size, 1);
 	memcpy(buffer, cfu_str->str, cfu_str->used_size);
 	return buffer;
 }
@@ -182,7 +182,7 @@ cfustring_get_buffer_copy(cfustring_t *cfu_str) {
 static char *
 _dup_str(const char *str) {
 	size_t len = strlen(str) + 1;
-	char *ns = (char *)calloc(len, 1);
+	char *ns = calloc(len, 1);
 	memcpy(ns, str, len);
 	return ns;
 }
@@ -194,7 +194,7 @@ _dup_str_n(const char *str, size_t n) {
 
 	if (n == 0) return NULL;
 
-	ns = (char *)calloc(len + 1, 1);
+	ns = calloc(len + 1, 1);
 	memcpy(ns, str, len);
 	ns[len] = '\000';
 	return ns;
@@ -260,9 +260,9 @@ __cfustring_split_to_raw(cfustring_t *cfu_str, size_t *num_strings, size_t num_s
 	va_list ap) {
 	char *sep = NULL;
 	size_t i = 0;
-	char **sep_array = (char **)calloc(num_seps, sizeof(char *));
-	char **sep_chk_ptrs = (char **)calloc(num_seps, sizeof(char *));
-	char **ret_strings = (char **)calloc(2, sizeof(char *));
+	char **sep_array = calloc(num_seps, sizeof(char *));
+	char **sep_chk_ptrs = calloc(num_seps, sizeof(char *));
+	char **ret_strings = calloc(2, sizeof(char *));
 	unsigned int max_ret_strings = 2;
 	unsigned int used_ret_strings = 0;
 	char *end = NULL;
@@ -297,7 +297,7 @@ __cfustring_split_to_raw(cfustring_t *cfu_str, size_t *num_strings, size_t num_s
 		if (used_ret_strings == max_ret_strings) {
 			/* allocate more space */
 			size_t new_size = max_ret_strings << 1;
-			char **tmp = (char **)calloc(new_size, sizeof(char *));
+			char **tmp = calloc(new_size, sizeof(char *));
 			for (i = 0; i < used_ret_strings; i++) tmp[i] = ret_strings[i];
 			free(ret_strings);
 			ret_strings = tmp;
@@ -343,7 +343,7 @@ cfustring_split(cfustring_t *cfu_str, size_t *num_strings, size_t limit, ...) {
 	va_end(ap);
 
 	if (!*num_strings) return NULL;
-	rv = (cfustring_t **)malloc(*num_strings * sizeof(cfustring_t *));
+	rv = malloc(*num_strings * sizeof(cfustring_t *));
 	for (i = 0; i < *num_strings; i++) {
 		rv[i] = cfustring_new_from_string(strings[i]);
 		free(strings[i]);
@@ -411,7 +411,7 @@ _safe_sprintf(char **buf, size_t *buf_size, const char *fmt, ...) {
 	if (!(*buf) || *buf_size == 0) {
 		*buf_size = 128;
 		if (*buf) free(*buf);
-		*buf = (char *)malloc(*buf_size);
+		*buf = malloc(*buf_size);
 	}
 
 	while (!done) {
@@ -421,7 +421,7 @@ _safe_sprintf(char **buf, size_t *buf_size, const char *fmt, ...) {
 		if (rv >= (int)(*buf_size) - 1) {
 			*buf_size *= 2;
 			free(*buf);
-			*buf = (char *)malloc(*buf_size);
+			*buf = malloc(*buf_size);
 		}
 		else {
 			done = 1;
@@ -438,14 +438,14 @@ _safe_strncpy(char **buf, size_t *buf_size, const char *src, size_t size) {
 	if (!(*buf) || *buf_size == 0) {
 		*buf_size = size + 1;
 		if (*buf) free(*buf);
-		*buf = (char *)malloc(*buf_size);
+		*buf = malloc(*buf_size);
 		(*buf)[0] = '\000';
 	}
 
 	if (size > *buf_size - 1) {
 		*buf_size = size + 1;
 		if (*buf) free(*buf);
-		*buf = (char *)malloc(*buf_size);
+		*buf = malloc(*buf_size);
 		(*buf)[0] = '\000';
 	}
 
@@ -466,8 +466,8 @@ cfustring_vsprintf(cfustring_t *cfu_str, const char *fmt_in, va_list ap) {
 	char *buf2 = NULL;
 	const char *fmt = NULL;
 
-	buf = (char *)malloc(buf_size);
-	buf2 = (char *)malloc(buf2_size);
+	buf = malloc(buf_size);
+	buf2 = malloc(buf2_size);
 
 	cfustring_clear(cfu_str);
 
