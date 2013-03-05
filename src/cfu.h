@@ -48,14 +48,6 @@
 
 CFU_BEGIN_DECLS
 
-/* define this to get thread-safe versions of functions */
-#ifndef _REENTRANT
-#define _REENTRANT 1
-#endif
-#ifndef _THREAD_SAFE
-#define _THREAD_SAFE 1
-#endif
-
 #define LIBCFU_VERSION "0.04"
 
 typedef enum { libcfu_t_none = 0, libcfu_t_hash_table, libcfu_t_list, libcfu_t_string,
