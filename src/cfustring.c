@@ -35,6 +35,10 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "cfu.h"
 
 #include "cfustring.h"
@@ -44,6 +48,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+
+#ifndef HAVE_VSNPRINTF
+int rpl_vsnprintf(char *, size_t, const char *, va_list);
+# define vsnprintf rpl_vsnprintf
+#endif
 
 struct cfustring {
 	libcfu_type type;

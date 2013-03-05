@@ -93,21 +93,21 @@ cfulist_num_entries(cfulist_t *list) {
 	return list->num_entries;
 }
 
-static inline void
+static CFU_INLINE void
 lock_list(cfulist_t *list) {
 #ifdef HAVE_PTHREAD_H
 	pthread_mutex_lock(&list->mutex);
 #endif
 }
 
-static inline void
+static CFU_INLINE void
 unlock_list(cfulist_t *list) {
 #ifdef HAVE_PTHREAD_H
 	pthread_mutex_unlock(&list->mutex);
 #endif
 }
 
-static inline cfulist_entry *
+static CFU_INLINE cfulist_entry *
 new_list_entry() {
 	return (cfulist_entry *)calloc(1, sizeof(cfulist_entry));
 }

@@ -39,11 +39,19 @@
 #define LIBCFU_H_
 
 #ifdef __cplusplus
-#define CFU_BEGIN_DECLS extern "C" {
-#define CFU_END_DECLS }
+# define CFU_BEGIN_DECLS extern "C" {
+# define CFU_END_DECLS }
+# define CFU_INLINE inline
 #else
-#define CFU_BEGIN_DECLS
-#define CFU_END_DECLS
+# define CFU_BEGIN_DECLS
+# define CFU_END_DECLS
+# if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#  define CFU_INLINE inline
+# elif defined(__GNUC__)
+#  define CFU_INLINE __inline__
+# else
+#  define CFU_INLINE
+# endif
 #endif
 
 CFU_BEGIN_DECLS

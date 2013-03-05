@@ -1,7 +1,7 @@
 lib_LTLIBRARIES = libcfu.la
 
 libcfu_la_SOURCES = cfuhash.c cfutime.c cfustring.c cfulist.c \
-                    cfuconf.c cfu.c cfuopt.c
+                    cfuconf.c cfu.c cfuopt.c snprintf.c
 
 
 libcfuincdir = $(includedir)/cfu

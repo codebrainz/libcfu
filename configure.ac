@@ -15,7 +15,7 @@ AM_PROG_CC_C_O
 AC_HEADER_STDC
 AC_HEADER_ASSERT
 AC_HEADER_TIME
-AC_CHECK_HEADERS([sys/time.h])
+AC_CHECK_HEADERS([stdarg.h sys/time.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -25,7 +25,7 @@ AC_TYPE_SIZE_T
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
-AC_CHECK_FUNCS([gettimeofday memset strcasecmp strncasecmp])
+AC_CHECK_FUNCS([gettimeofday memset snprintf strcasecmp strncasecmp vsnprintf])
 
 # Check for pthread support
 AC_CHECK_LIB([pthread],

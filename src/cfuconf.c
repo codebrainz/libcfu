@@ -284,7 +284,7 @@ _slurp_file_from_fp(FILE *fp) {
 	return lines;
 }
 
-static inline int
+static CFU_INLINE int
 _is_whitespace(char c) {
 	if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
 		return 1;
@@ -292,7 +292,7 @@ _is_whitespace(char c) {
 	return 0;
 }
 
-static inline char *
+static CFU_INLINE char *
 _eat_whitespace(char *buf) {
 	char *ptr = buf;
 

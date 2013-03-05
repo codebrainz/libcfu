@@ -45,6 +45,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <ctype.h>
 #include <assert.h>
 
@@ -71,6 +72,11 @@ strncasecmp(const char *s1, const char *s2, size_t n)
 	}
 	return 0;
 }
+#endif
+
+#ifndef HAVE_SNPRINTF
+int rpl_snprintf(char *, size_t, const char *, ...);
+# define snprintf rpl_snprintf
 #endif
 
 
@@ -132,14 +138,14 @@ hash_size(unsigned int s) {
 	return i;
 }
 
-static inline void *
+static CFU_INLINE void *
 hash_key_dup(const void *key, size_t key_size) {
 	void *new_key = malloc(key_size);
 	memcpy(new_key, key, key_size);
 	return new_key;
 }
 
-static inline void *
+static CFU_INLINE void *
 hash_key_dup_lower_case(const void *key, size_t key_size) {
 	char *new_key = (char *)hash_key_dup(key, key_size);
 	size_t i = 0;
@@ -148,7 +154,7 @@ hash_key_dup_lower_case(const void *key, size_t key_size) {
 }
 
 /* returns the index into the buckets array */
-static inline unsigned int
+static CFU_INLINE unsigned int
 hash_value(cfuhash_table_t *ht, const void *key, size_t key_size, size_t num_buckets) {
 	unsigned int hv = 0;
 
@@ -303,7 +309,7 @@ cfuhash_set_free_function(cfuhash_table_t * ht, cfuhash_free_fn_t ff) {
 	return 0;
 }
 
-static inline void
+static CFU_INLINE void
 lock_hash(cfuhash_table_t *ht) {
 	if (!ht) return;
 	if (ht->flags & CFUHASH_NO_LOCKING) return;
@@ -312,7 +318,7 @@ lock_hash(cfuhash_table_t *ht) {
 #endif
 }
 
-static inline void
+static CFU_INLINE void
 unlock_hash(cfuhash_table_t *ht) {
 	if (!ht) return;
 	if (ht->flags & CFUHASH_NO_LOCKING) return;
@@ -340,7 +346,7 @@ cfuhash_unlock(cfuhash_table_t *ht) {
 /* see if this key matches the one in the hash entry */
 /* uses the convention that zero means a match, like memcmp */
 
-static inline int
+static CFU_INLINE int
 hash_cmp(const void *key, size_t key_size, cfuhash_entry *he, unsigned int case_insensitive) {
 	if (key_size != he->key_size) return 1;
 	if (key == he->key) return 0;
@@ -350,7 +356,7 @@ hash_cmp(const void *key, size_t key_size, cfuhash_entry *he, unsigned int case_
 	return memcmp(key, he->key, key_size);
 }
 
-static inline cfuhash_entry *
+static CFU_INLINE cfuhash_entry *
 hash_add_entry(cfuhash_table_t *ht, unsigned int hv, const void *key, size_t key_size,
 	void *data, size_t data_size) {
 	cfuhash_entry *he = (cfuhash_entry *)calloc(1, sizeof(cfuhash_entry));

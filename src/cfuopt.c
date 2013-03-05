@@ -71,8 +71,6 @@ typedef struct cfuopt_list_entry {
 	cfulist_t *param_names;
 } cfuopt_list_entry_t;
 
-#define CFU_OPT_ALLOC(type, count) (type *)calloc(count, sizeof(type));
-
 extern cfuopt_t *
 cfuopt_new() {
 	cfuopt_t *context = (cfuopt_t *)calloc(1, sizeof(cfuopt_t));
@@ -199,7 +197,7 @@ _add_to_option_map(void *data, size_t data_size, void *arg) {
 extern void
 cfuopt_add_entry(cfuopt_t *context, const char *opt_str, void *arg_data,
 	const char *description, const char *arg_description) {
-	cfuopt_list_entry_t *entry = CFU_OPT_ALLOC(cfuopt_list_entry_t, 1);
+	cfuopt_list_entry_t *entry = calloc(1, sizeof(cfuopt_list_entry_t));
 	cfulist_t *param_list = NULL;
 	cfuopt_arg_t arg_type = cfuopt_arg_invalid;
 	struct _add_entry_struct entry_struct;
@@ -530,7 +528,7 @@ _find_foreach_fn(void *data, size_t data_size, void *arg) {
 	size_t this_size = 0;
 	cfulist_t *param_full_list = NULL;
 	char *desc = NULL;
-	_cfuopt_desc *desc_ds = CFU_OPT_ALLOC(_cfuopt_desc, 1);
+	_cfuopt_desc *desc_ds = calloc(1, sizeof(_cfuopt_desc));
 
 	if (!data) return 0;
 
