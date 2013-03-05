@@ -4,7 +4,7 @@
  */
 
 #include "cfuhash.h"
-#include "cfutime.h"
+#include "cfutimer.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -104,20 +104,21 @@ time_it(cfuhash_function_t hf, double *elapsed_time, u_int32_t num_tests) {
 	size_t used;
 	size_t num_buckets;
 	size_t num_entries;
-	cfutime_t *time = cfutime_new();
+	cfutimer_t *timer = cfutimer_new();
 
 	/* freeze the hash so that it won't shrink while we put in all the data */
 	cfuhash_set_flag(hash, CFUHASH_FROZEN_UNTIL_GROWS);
 	cfuhash_set_hash_function(hash, hf);
 
-	cfutime_begin(time);
+	cfutimer_start(timer);
 	for (i = 0; i < num_tests; i++) {
 		sprintf(key, "%lu", 15000000 - i);
 		sprintf(value, "value%lu", i);
 		cfuhash_put(hash, key, dup_str(value));
 	}
-	cfutime_end(time);
-	*elapsed_time = cfutime_elapsed(time);
+	cfutimer_stop(timer);
+	*elapsed_time = cfutimer_elapsed(timer);
+	cfutimer_free(timer);
 
 	used = cfuhash_num_buckets_used(hash);
 	num_buckets = cfuhash_num_buckets(hash);
