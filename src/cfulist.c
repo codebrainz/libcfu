@@ -108,7 +108,7 @@ unlock_list(cfulist_t *list) {
 }
 
 static CFU_INLINE cfulist_entry *
-new_list_entry() {
+new_list_entry(void) {
 	return calloc(1, sizeof(cfulist_entry));
 }
 

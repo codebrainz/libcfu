@@ -285,10 +285,11 @@ _set_entry_val(cfuopt_list_entry_t *entry, const char *value) {
 	  case cfuopt_arg_string:
 		  if (entry->arg_data) *((char **)entry->arg_data) = cfustring_dup_c_str((char *)value);
 		  break;
+	  case cfuopt_arg_invalid:
+	  case cfuopt_arg_string_array:
 	  default:
 		  break;
 	}
-
 }
 
 typedef struct {

@@ -117,7 +117,7 @@ static u_int32_t
 hash_func(const void *key, size_t length) {
 	register size_t i = length;
 	register unsigned int hv = 0; /* could put a seed here instead of zero */
-	register const unsigned char *s = (unsigned char *)key;
+	register const unsigned char *s = (const unsigned char *)key;
 	while (i--) {
 		hv += *s++;
 		hv += (hv << 10);
