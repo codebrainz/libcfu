@@ -101,7 +101,7 @@ struct cfuhash_table {
 #ifdef HAVE_PTHREAD_H
 	pthread_mutex_t mutex;
 #endif
-	u_int32_t flags;
+	unsigned int flags;
 	cfuhash_function_t hash_func;
 	size_t each_bucket_index;
 	cfuhash_entry *each_chain_entry;
@@ -113,7 +113,7 @@ struct cfuhash_table {
 };
 
 /* Perl's hash function */
-static u_int32_t
+static unsigned int
 hash_func(const void *key, size_t length) {
 	register size_t i = length;
 	register unsigned int hv = 0; /* could put a seed here instead of zero */
@@ -177,7 +177,7 @@ hash_value(cfuhash_table_t *ht, const void *key, size_t key_size, size_t num_buc
 }
 
 static cfuhash_table_t *
-_cfuhash_new(size_t size, u_int32_t flags) {
+_cfuhash_new(size_t size, unsigned int flags) {
 	cfuhash_table_t *ht;
 
 	size = hash_size(size);
@@ -213,7 +213,7 @@ cfuhash_new_with_initial_size(size_t size) {
 }
 
 cfuhash_table_t *
-cfuhash_new_with_flags(u_int32_t flags) {
+cfuhash_new_with_flags(unsigned int flags) {
 	return _cfuhash_new(8, CFUHASH_FROZEN_UNTIL_GROWS|flags);
 }
 
@@ -248,7 +248,7 @@ cfuhash_copy(cfuhash_table_t *src, cfuhash_table_t *dst) {
 }
 
 cfuhash_table_t *
-cfuhash_merge(cfuhash_table_t *ht1, cfuhash_table_t *ht2, u_int32_t flags) {
+cfuhash_merge(cfuhash_table_t *ht1, cfuhash_table_t *ht2, unsigned int flags) {
 	cfuhash_table_t *new_ht = NULL;
 
 	flags |= CFUHASH_FROZEN_UNTIL_GROWS;
@@ -260,22 +260,22 @@ cfuhash_merge(cfuhash_table_t *ht1, cfuhash_table_t *ht2, u_int32_t flags) {
 }
 
 /* returns the flags */
-u_int32_t
+unsigned int
 cfuhash_get_flags(cfuhash_table_t *ht) {
 	return ht->flags;
 }
 
 /* sets the given flag and returns the old flags value */
-u_int32_t
-cfuhash_set_flag(cfuhash_table_t *ht, u_int32_t new_flag) {
-	u_int32_t flags = ht->flags;
+unsigned int
+cfuhash_set_flag(cfuhash_table_t *ht, unsigned int new_flag) {
+	unsigned int flags = ht->flags;
 	ht->flags = flags | new_flag;
 	return flags;
 }
 
-u_int32_t
-cfuhash_clear_flag(cfuhash_table_t *ht, u_int32_t new_flag) {
-	u_int32_t flags = ht->flags;
+unsigned int
+cfuhash_clear_flag(cfuhash_table_t *ht, unsigned int new_flag) {
+	unsigned int flags = ht->flags;
 	ht->flags = flags & ~new_flag;
 	return flags;
 }

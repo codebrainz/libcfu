@@ -40,7 +40,6 @@
 
 #include <cfu.h>
 #include <stdio.h>
-#include <sys/types.h>
 
 CFU_BEGIN_DECLS
 
@@ -48,7 +47,7 @@ CFU_BEGIN_DECLS
 typedef struct cfuhash_table cfuhash_table_t;
 
 /* Prototype for a pointer to a hashing function. */
-typedef u_int32_t (*cfuhash_function_t)(const void *key, size_t length);
+typedef unsigned int (*cfuhash_function_t)(const void *key, size_t length);
 
 /* Prototype for a pointer to a free function. */
 typedef void (*cfuhash_free_fn_t)(void *data);
@@ -77,7 +76,7 @@ cfuhash_table_t * cfuhash_new_with_initial_size(size_t size);
 /* Creates a new hash table with the specified flags.  Pass zero
  *  for flags if you want the defaults.
  */
-cfuhash_table_t * cfuhash_new_with_flags(u_int32_t flags);
+cfuhash_table_t * cfuhash_new_with_flags(unsigned int flags);
 
 /* Same as cfuhash_new() except automatically calls cfuhash_set_free_fn(). */
 cfuhash_table_t * cfuhash_new_with_free_fn(cfuhash_free_fn_t ff);
@@ -89,7 +88,7 @@ int cfuhash_copy(cfuhash_table_t *src, cfuhash_table_t *dst);
  * For any entries with the same key, the one from ht2 wins.
 */
 cfuhash_table_t * cfuhash_merge(cfuhash_table_t *ht1, cfuhash_table_t *ht2,
-	u_int32_t flags);
+	unsigned int flags);
 
 /* Sets the hashing function to use when computing which bucket to add
  * entries to.  It should return a 32-bit unsigned integer.  By
@@ -112,13 +111,13 @@ int cfuhash_set_thresholds(cfuhash_table_t *ht, float low, float high);
 int cfuhash_set_free_function(cfuhash_table_t * ht, cfuhash_free_fn_t ff);
 
 /* Returns the hash's flags. See below for flag definitions. */
-u_int32_t cfuhash_get_flags(cfuhash_table_t *ht);
+unsigned int cfuhash_get_flags(cfuhash_table_t *ht);
 
 /* Sets a flag. */
-u_int32_t cfuhash_set_flag(cfuhash_table_t *ht, u_int32_t flag);
+unsigned int cfuhash_set_flag(cfuhash_table_t *ht, unsigned int flag);
 
 /* Clears a flag. */
-u_int32_t cfuhash_clear_flag(cfuhash_table_t *ht, u_int32_t new_flag);
+unsigned int cfuhash_clear_flag(cfuhash_table_t *ht, unsigned int new_flag);
 
 /* Returns the value for the entry with given key.  If key_size is -1,
  * key is assumed to be a null-terminated string.  If data_size is not
