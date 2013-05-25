@@ -26,7 +26,7 @@ dup_str(const char *str) {
 	return ns;
 }
 
-static u_int32_t
+static uint32_t
 hash_func1(const void *key, size_t length) {
 	size_t i = length;
 	unsigned int hash = 0;
@@ -50,7 +50,7 @@ hash_func1(const void *key, size_t length) {
   c -= a; c -= b; c ^= (b>>15);			\
 }
 
-typedef u_int32_t ub4;
+typedef uint32_t ub4;
 
 static unsigned int
 hash_func_tc(const void *key, size_t length)
@@ -98,7 +98,7 @@ hash_func_tc(const void *key, size_t length)
 
 
 static int
-time_it(cfuhash_function_t hf, double *elapsed_time, u_int32_t num_tests) {
+time_it(cfuhash_function_t hf, double *elapsed_time, uint32_t num_tests) {
 	cfuhash_table_t *hash = cfuhash_new_with_initial_size(30);
 	char key[32];
 	char value[32];
@@ -135,7 +135,7 @@ time_it(cfuhash_function_t hf, double *elapsed_time, u_int32_t num_tests) {
 
 int main(int argc, char **argv) {
 	double elapsed_time = 0;
-	u_int32_t num_tests = 3000000;
+	uint32_t num_tests = 3000000;
 
 	(void)argc;
 	(void)argv;
