@@ -3,13 +3,15 @@
  * Change log:
  */
 
-#include "cfuhash.h"
-#include "cfutimer.h"
+#include <sys/types.h>
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <pthread.h>
+
+#include "cfuhash.h"
+#include "cfutimer.h"
 
 static
 void free_data(void *data) {
