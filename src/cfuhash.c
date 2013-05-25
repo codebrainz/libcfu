@@ -812,8 +812,8 @@ typedef struct _pretty_print_arg {
 static int
 _pretty_print_foreach(void *key, size_t key_size, void *data, size_t data_size, void *arg) {
 	_pretty_print_arg *parg = (_pretty_print_arg *)arg;
-	key_size = key_size;
-	data_size = data_size;
+	(void)key_size;
+	(void)data_size;
 	parg->count += fprintf(parg->fp, "\t\"%s\" => \"%s\",\n", (char *)key, (char *)data);
 	return 0;
 }

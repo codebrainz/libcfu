@@ -36,9 +36,9 @@ strncasecmp(const char *s1, const char *s2, size_t n)
 
 static int
 remove_func(void *key, size_t key_size, void *data, size_t data_size, void *arg) {
-	data_size = data_size;
-	data = data;
-	arg = arg;
+	(void)data_size;
+	(void)data;
+	(void)arg;
 
 	if (key_size > 7) {
 		if (!strncasecmp(key, "content", 7)) {
@@ -55,8 +55,8 @@ int main(int argc, char **argv) {
 	char list[32][2][32];
 	size_t i;
 
-	argc = argc;
-	argv = argv;
+	(void)argc;
+	(void)argv;
 
 	cfuhash_set_flag(hash, CFUHASH_FROZEN_UNTIL_GROWS);
 

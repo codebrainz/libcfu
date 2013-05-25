@@ -17,8 +17,8 @@ int main(int argc, char **argv) {
 	char *help = NULL;
 	int i = 0;
 
-	argc = argc;
-	argv = argv;
+	(void)argc;
+	(void)argv;
 
 	cfuopt_add_entry(opt, "verbose|v!", &verbose, "Verbosity", "");
 	cfuopt_add_entry(opt, "file|f:s", &file, "File to load", "FILE");

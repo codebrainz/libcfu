@@ -137,8 +137,8 @@ int main(int argc, char **argv) {
 	double elapsed_time = 0;
 	u_int32_t num_tests = 3000000;
 
-	argc = argc;
-	argv = argv;
+	(void)argc;
+	(void)argv;
 
 	printf("mutex is %lu bytes\n", sizeof(pthread_mutex_t));
 

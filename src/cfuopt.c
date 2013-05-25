@@ -187,7 +187,7 @@ struct _add_entry_struct {
 static int
 _add_to_option_map(void *data, size_t data_size, void *arg) {
 	struct _add_entry_struct *es = (struct _add_entry_struct *)arg;
-	data_size = data_size;
+	(void)data_size;
 
 	cfuhash_put(es->context->option_map, (char *)data, (void *)es->entry);
 
@@ -300,7 +300,7 @@ typedef struct {
 static int
 _update_extra(void *data, size_t data_size, void *arg) {
 	_update_extra_ds *ds = (_update_extra_ds *)arg;
-	data_size = data_size;
+	(void)data_size;
 	ds->argv[ds->count] = (char *)data;
 	ds->count++;
 
@@ -320,7 +320,7 @@ cfuopt_parse(cfuopt_t *context, int *argc, char ***argv, char **error) {
 	cfuopt_list_entry_t *entry = NULL;
 	size_t extra_count = 0;
 
-	error = error;
+	(void)error;
 
 	if (!context) return;
 	if (*argc < 1) return;
@@ -461,9 +461,9 @@ _cfuopt_pretty_print_foreach(void *key, size_t key_size, void *data, size_t data
 	cfuopt_list_entry_t *list_entry = data;
 	char *str = NULL;
 
-	key_size = key_size;
-	data_size = data_size;
-	arg = arg;
+	(void)key_size;
+	(void)data_size;
+	(void)arg;
 	ARG_TYPE_TO_STR(list_entry->arg_type, str);
 	printf("%s=%p (%s - %s) => %s, \"%s\"\n", name, (void *)list_entry, (list_entry->required ? "required" : "optional"), str, list_entry->description, list_entry->arg_description);
 
@@ -486,7 +486,7 @@ _param_map_fn(void *data, size_t data_size, void *arg, size_t *new_data_size) {
 	size_t len = 0;
 	cfuopt_list_entry_t *opt = (cfuopt_list_entry_t *)arg;
 
-	data_size = data_size;
+	(void)data_size;
 	if (!name) return NULL;
 	len = strlen(name);
 	*new_data_size = -1;
@@ -536,7 +536,7 @@ _find_foreach_fn(void *data, size_t data_size, void *arg) {
 	param_full_list = cfulist_map(opt->param_names, _param_map_fn, opt);
 	desc = cfulist_join(param_full_list, ", ");
 
-	data_size = data_size;
+	(void)data_size;
 
 	cfulist_destroy_with_free_fn(param_full_list, _simple_list_free_fn);
 
@@ -576,7 +576,7 @@ _get_help_lines(void *data, size_t data_size, void *arg) {
 	const char *desc = NULL;
 	char *line = NULL;
 
-	data_size = data_size;
+	(void)data_size;
 
 	left_col = desc_ds->desc;
 

@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 		"Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, */*\r\n");
 	cfustring_t **header_lines = NULL;
 
-	argc = argc; argv = argv; /* avoid compiler warnings */
+	(void)argc; (void)argv; /* avoid compiler warnings */
 
 	cfustring_append(buf, "test^*string%2^*3");
 	strings = cfustring_split_to_c_str(buf, &num_strings, 0, "%", "^*", NULL);
