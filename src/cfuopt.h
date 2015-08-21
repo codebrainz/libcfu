@@ -35,7 +35,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <cfu.h>
+#include <cfu/cfu.h>
 
 #ifndef CFU_OPT_H_
 #define CFU_OPT_H_

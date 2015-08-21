@@ -38,9 +38,9 @@
 #ifndef CFU_STRING_H_
 #define CFU_STRING_H_
 
-#include <cfu.h>
 #include <stdarg.h>
 #include <stddef.h>
+#include <cfu/cfu.h>
 
 CFU_BEGIN_DECLS
 

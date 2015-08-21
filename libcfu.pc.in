@@ -7,4 +7,3 @@ Name: @PACKAGE_NAME@
 Description: Portable C data structure and utility library
 Version: @PACKAGE_VERSION@
 Libs.private: @PTHREAD_LIBS@ @REALTIME_LIBS@
-Cflags: -I${includedir}/cfu

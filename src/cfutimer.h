@@ -11,7 +11,7 @@
 #ifndef CFU_TIMER_H_
 #define CFU_TIMER_H_
 
-#include <cfu.h>
+#include <cfu/cfu.h>
 
 CFU_BEGIN_DECLS
 
