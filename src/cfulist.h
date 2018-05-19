@@ -81,6 +81,9 @@ int cfulist_push_data(cfulist_t *list, void *data, size_t data_size);
 /* Pop a value from the end of the list. */
 int cfulist_pop_data(cfulist_t *list, void **data, size_t *data_size);
 
+/* Deletes the entry in the list associated with value. */
+void cfulist_delete_data(cfulist_t *list, void *data);
+
 /* Add a value at the beginning of the list. */
 int cfulist_unshift_data(cfulist_t *list, void *data, size_t data_size);
 
