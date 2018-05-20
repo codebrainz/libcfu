@@ -412,6 +412,28 @@ cfulist_pop(cfulist_t *list) {
 	return NULL;
 }
 
+void
+cfulist_delete_data(cfulist_t *list, void *data) {
+	cfulist_entry *ptr = NULL;
+
+	if (!list) {
+		return;
+	}
+
+	lock_list(list);
+	
+	if (list->entries) {
+		for (ptr = list->entries; ptr && ptr->data != data; ptr = ptr->next)
+		;
+		if (ptr && ptr->data == data) {
+			(ptr->prev)->next = ptr->next;
+			free (ptr);
+		}
+	}
+
+	unlock_list(list);
+}
+
 int
 cfulist_unshift(cfulist_t *list, void *data) {
 	return cfulist_unshift_data(list, data, 0);
