@@ -414,7 +414,6 @@ cfulist_pop(cfulist_t *list) {
 
 void
 cfulist_delete_data(cfulist_t *list, void *data) {
-	size_t i = 0;
 	cfulist_entry *ptr = NULL;
 
 	if (!list) {
@@ -424,9 +423,11 @@ cfulist_delete_data(cfulist_t *list, void *data) {
 	lock_list(list);
 	
 	if (list->entries) {
-		for (i = 0, ptr = list->entries; ptr && ptr->data != data; i++, ptr = ptr->next);
+		for (ptr = list->entries; ptr && ptr->data != data; ptr = ptr->next)
+		;
 		if (ptr && ptr->data == data) {
 			(ptr->prev)->next = ptr->next;
+			free (ptr);
 		}
 	}
 
