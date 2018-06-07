@@ -509,7 +509,7 @@ cfulist_map().  The return value is used to build a new list.
  Pop a value from the end of the list (removing it from the list).
 @end deftypefun
 
-@deftypefun void cfulist_delete_data (cfulist_t * @var{list}, void * @var{data})
+@deftypefun {void} cfulist_delete_data (cfulist_t * @var{list}, void * @var{data})
 
  Deletes the entry in the list associated with value.
 @end deftypefun
