@@ -425,9 +425,14 @@ cfulist_delete_data(cfulist_t *list, void *data) {
 	if (list->entries) {
 		for (ptr = list->entries; ptr && ptr->data != data; ptr = ptr->next)
 		;
+		
 		if (ptr && ptr->data == data) {
-			(ptr->prev)->next = ptr->next;
-			free (ptr);
+			if (!ptr->prev) {
+				cfulist_dequeue (list);
+			} else {
+				(ptr->prev)->next = ptr->next;
+				free (ptr);
+			}
 		}
 	}
 
