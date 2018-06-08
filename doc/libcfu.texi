@@ -581,10 +581,12 @@ position in the new list.
  Free all resources used by the list. 
 @end deftypefun
 
-@deftypefun {void} cfulist_destroy (cfulist_t * @var{list}, cfulist_free_fn_t @var{free_fn})
+@deftypefun {void} cfulist_destroy_with_free_fn (cfulist_t * @var{list}, cfulist_free_fn_t @var{free_fn})
 
- Free all resources used by the list. If free_fn is not NULL, call it
+Free all resources used by the list. If free_fn is not NULL, is called
 for each element of the list, passing the data to it as a void *.
+If free_fn is not NULL, it overrides any function set previously 
+with cfulist_set_free_function().
 @end deftypefun
 
 
