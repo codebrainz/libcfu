@@ -414,18 +414,25 @@ cfulist_pop(cfulist_t *list) {
 
 void
 cfulist_delete_data(cfulist_t *list, void *data) {
+	cfulist_delete_data_with_free_fn(list, data, list->free_fn);
+	return;
+}
+
+void
+cfulist_delete_data_with_free_fn(cfulist_t *list, void *data, cfulist_free_fn_t free_fn) {
 	if (!list) {
 		return;
 	}
 
 	lock_list(list);
 
-	if (list->entries) {
-		cfulist_entry *entry = list->entries;
-		while (entry && entry->data != data)
+	cfulist_entry *entry = list->entries;
+	while (entry)
+	{ 
+		if (entry->data != data) {
 			entry = entry->next;
-		
-		if (entry && entry->data == data) {
+			continue;
+		} else {
 			if (!entry->prev) {
 				if (entry->next) {
 					assert(list->num_entries > 1);
@@ -439,8 +446,10 @@ cfulist_delete_data(cfulist_t *list, void *data) {
 			} else {
 				(entry->prev)->next = entry->next;
 			}
+			if (free_fn) free_fn(entry->data);
 			free (entry);
 			--list->num_entries;
+			break;
 		}
 	}
 

@@ -514,6 +514,14 @@ cfulist_map().  The return value is used to build a new list.
  Deletes the entry in the list associated with value.
 @end deftypefun
 
+@deftypefun {void} cfulist_delete_data_with_free_fn (cfulist_t * @var{list}, void * @var{data}, cfulist_free_fn_t @var{ff})
+
+ Deletes the entry in the list associated with value.  If ff is not NULL, it
+ is called for value of the entry passed as its only argument. If ff is not NULL, 
+ it overrides any function set previously with cfulist_set_free_function().
+ 
+@end deftypefun
+
 @deftypefun {int} cfulist_unshift_data (cfulist_t * @var{list}, void * @var{data}, size_t @var{data_size})
 
  Add a value at the beginning of the list. 
