@@ -418,6 +418,48 @@ cfulist_pop(cfulist_t *list) {
 	return NULL;
 }
 
+void
+cfulist_delete_data(cfulist_t *list, void *data) {
+	cfulist_delete_data_with_free_fn(list, data, list->free_fn);
+	return;
+}
+
+void
+cfulist_delete_data_with_free_fn(cfulist_t *list, void *data, cfulist_free_fn_t free_fn) {
+	if (!list) {
+		return;
+	}
+
+	lock_list(list);
+
+	cfulist_entry *entry = list->entries;
+	while (entry)
+	{ 
+		if (entry->data == data) {
+			if (!entry->prev) {
+				if (entry->next) {
+					assert(list->num_entries > 1);
+					list->entries = entry->next;
+					list->entries->prev = NULL;
+				} else {
+					assert(list->num_entries == 1);
+					list->tail = NULL;
+					list->entries = NULL;
+				}
+			} else {
+				(entry->prev)->next = entry->next;
+			}
+			if (free_fn) free_fn(entry->data);
+			free (entry);
+			--list->num_entries;
+			break;
+		}
+		entry = entry->next;
+	}
+
+	unlock_list(list);
+}
+
 int
 cfulist_unshift(cfulist_t *list, void *data) {
 	return cfulist_unshift_data(list, data, 0);
