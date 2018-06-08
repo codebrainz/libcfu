@@ -65,9 +65,7 @@ typedef void (*cfulist_free_fn_t)(void *data);
 /* Returns a new list. */
 cfulist_t * cfulist_new(void);
 
-/* Same as cfulist_new(), but set a function to be called on each
- * element when the list is destroyed.
- */
+/* Same as cfulist_new() except automatically calls cfulist_set_free_fn(). */
 cfulist_t * cfulist_new_with_free_fn(cfulist_free_fn_t free_fn);
 
 /* Returns the number of entries in the list. */

@@ -490,7 +490,12 @@ cfulist_map().  The return value is used to build a new list.
 
 @deftypefun {cfulist_t *} cfulist_new ();
 
- Returns a new list. 
+ Creates a new list. 
+@end deftypefun
+
+@deftypefun {cfulist_t *} cfulist_new_with_free_fn (cfulist_free_fn_t @var{ff})
+
+ Same as cfulist_new() except automatically calls cfulist_set_free_fn(). 
 @end deftypefun
 
 @deftypefun {size_t} cfulist_num_entries (cfulist_t *@var{list})
