@@ -429,10 +429,7 @@ cfulist_delete_data_with_free_fn(cfulist_t *list, void *data, cfulist_free_fn_t 
 	cfulist_entry *entry = list->entries;
 	while (entry)
 	{ 
-		if (entry->data != data) {
-			entry = entry->next;
-			continue;
-		} else {
+		if (entry->data == data) {
 			if (!entry->prev) {
 				if (entry->next) {
 					assert(list->num_entries > 1);
@@ -451,6 +448,7 @@ cfulist_delete_data_with_free_fn(cfulist_t *list, void *data, cfulist_free_fn_t 
 			--list->num_entries;
 			break;
 		}
+		entry = entry->next;
 	}
 
 	unlock_list(list);
