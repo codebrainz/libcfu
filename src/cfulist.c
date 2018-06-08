@@ -84,8 +84,14 @@ cfulist_new(void) {
 cfulist_t *
 cfulist_new_with_free_fn(cfulist_free_fn_t free_fn) {
 	cfulist_t *list = cfulist_new();
-	list->free_fn = free_fn;
+	cfulist_set_free_function (list, free_fn);
 	return list;
+}
+
+int
+cfulist_set_free_function(cfulist_t *list, cfulist_free_fn_t ff) {
+	if (ff) list->free_fn = ff;
+	return 0;
 }
 
 size_t
