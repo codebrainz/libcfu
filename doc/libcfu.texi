@@ -490,7 +490,12 @@ cfulist_map().  The return value is used to build a new list.
 
 @deftypefun {cfulist_t *} cfulist_new ();
 
- Returns a new list. 
+ Creates a new list. 
+@end deftypefun
+
+@deftypefun {cfulist_t *} cfulist_new_with_free_fn (cfulist_free_fn_t @var{ff})
+
+ Same as cfulist_new() except automatically calls cfulist_set_free_fn(). 
 @end deftypefun
 
 @deftypefun {size_t} cfulist_num_entries (cfulist_t *@var{list})
@@ -507,6 +512,19 @@ cfulist_map().  The return value is used to build a new list.
 @deftypefun {int} cfulist_pop_data (cfulist_t * @var{list}, void ** @var{data}, size_t * @var{data_size})
 
  Pop a value from the end of the list (removing it from the list).
+@end deftypefun
+
+@deftypefun {void} cfulist_delete_data (cfulist_t * @var{list}, void * @var{data})
+
+ Deletes the entry in the list associated with value.
+@end deftypefun
+
+@deftypefun {void} cfulist_delete_data_with_free_fn (cfulist_t * @var{list}, void * @var{data}, cfulist_free_fn_t @var{ff})
+
+ Deletes the entry in the list associated with value.  If ff is not NULL, it
+ is called for value of the entry passed as its only argument. If ff is not NULL,
+ it overrides any function set previously with cfulist_set_free_function().
+ 
 @end deftypefun
 
 @deftypefun {int} cfulist_unshift_data (cfulist_t * @var{list}, void * @var{data}, size_t @var{data_size})
@@ -576,10 +594,12 @@ position in the new list.
  Free all resources used by the list. 
 @end deftypefun
 
-@deftypefun {void} cfulist_destroy (cfulist_t * @var{list}, cfulist_free_fn_t @var{free_fn})
+@deftypefun {void} cfulist_destroy_with_free_fn (cfulist_t * @var{list}, cfulist_free_fn_t @var{free_fn})
 
- Free all resources used by the list. If free_fn is not NULL, call it
+Free all resources used by the list. If free_fn is not NULL, is called
 for each element of the list, passing the data to it as a void *.
+If free_fn is not NULL, it overrides any function set previously 
+with cfulist_set_free_function().
 @end deftypefun
 
 
