@@ -726,6 +726,7 @@ cfuhash_foreach_remove(cfuhash_table_t *ht, cfuhash_remove_fn_t r_fn, cfuhash_fr
 			}
 		}
 	}
+        ht->entries -= num_removed;
 
 	unlock_hash(ht);
 
