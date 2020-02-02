@@ -38,7 +38,7 @@
 #ifndef CFU_HASH_H_
 #define CFU_HASH_H_
 
-#include <cfu.h>
+#include <cfu/cfu.h>
 #include <stdio.h>
 
 CFU_BEGIN_DECLS

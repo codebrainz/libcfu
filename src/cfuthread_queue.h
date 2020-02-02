@@ -38,7 +38,7 @@
 #ifndef CFUTHREAD_QUEUE_H
 #define CFUTHREAD_QUEUE_H
 
-#include <cfu.h>
+#include <cfu/cfu.h>
 
 CFU_BEGIN_DECLS
 

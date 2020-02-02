@@ -38,8 +38,8 @@
 #ifndef CFU_LIST_
 #define CFU_LIST_
 
-#include <cfu.h>
 #include <stddef.h>
+#include <cfu/cfu.h>
 
 CFU_BEGIN_DECLS
 

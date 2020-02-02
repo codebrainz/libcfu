@@ -38,10 +38,10 @@
 #ifndef CFU_CONF_H_
 #define CFU_CONF_H_
 
-#include <cfu.h>
-#include <cfuhash.h>
-#include <cfulist.h>
-#include <cfustring.h>
+#include <cfu/cfu.h>
+#include <cfu/cfuhash.h>
+#include <cfu/cfulist.h>
+#include <cfu/cfustring.h>
 
 CFU_BEGIN_DECLS
 
