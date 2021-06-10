@@ -29,8 +29,8 @@ int main(int argc, char **argv) {
 		"    SetVar Test4 Val4\n"
 		"</test_container>\n";
 
-	argc = argc;
-	argv = argv;
+	(void)argc;
+	(void)argv;
 
 	if (cfuconf_parse_buffer(buffer, &conf, &error) < 0) {
 		fprintf(stderr, "Error loading conf buffer: %s\n", error);

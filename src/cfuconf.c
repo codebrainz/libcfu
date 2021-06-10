@@ -736,9 +736,9 @@ print_sub_container_foreach_fn(void *name, size_t key_size, void *data, size_t d
 	void *arg) {
 	directive_foreach_ds *ds = (directive_foreach_ds *)arg;
 
-	name = name;
-	key_size = key_size;
-	data_size = data_size;
+	(void)name;
+	(void)key_size;
+	(void)data_size;
 
 	print_indent(ds->depth, ds->fp);
 	fprintf(ds->fp, "container %s '%s'\n", ds->name, (char *)name);
@@ -754,8 +754,8 @@ print_container_foreach_fn(void *name, size_t key_size, void *data, size_t data_
 	memcpy(new_ds, ds, sizeof(directive_foreach_ds));
 	new_ds->name = name;
 
-	key_size = key_size;
-	data_size = data_size;
+	(void)key_size;
+	(void)data_size;
 
 	cfuhash_foreach((cfuhash_table_t *)data, print_sub_container_foreach_fn, new_ds);
 	free(new_ds);
@@ -769,7 +769,7 @@ print_directive_list_foreach_fn(void *data, size_t data_size, void *arg) {
 	directive_foreach_ds *ds = (directive_foreach_ds *)arg;
 	char *str = NULL;
 
-	data_size = data_size;
+	(void)data_size;
 	if (!val_list) return 0;
 	assert(cfu_is_list(val_list));
 	str = cfulist_join(val_list, ", ");
@@ -785,8 +785,8 @@ print_conf_foreach_directive(void *name, size_t key_size, void *data, size_t dat
 	cfulist_t *this_directive_list = data;
 	directive_foreach_ds *new_ds = calloc(1, sizeof(directive_foreach_ds));
 
-	key_size = key_size;
-	data_size = data_size;
+	(void)key_size;
+	(void)data_size;
 
 	new_ds->fp = ds->fp;
 	new_ds->depth = ds->depth;

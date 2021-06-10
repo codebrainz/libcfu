@@ -534,7 +534,7 @@ static int
 _join_foreach_fn(void *data, size_t data_size, void *arg) {
 	_join_foreach_struct *stuff = (_join_foreach_struct *)arg;
 
-	data_size = data_size;
+	(void)data_size;
 	if (stuff->count) cfustring_append(stuff->string, stuff->delimiter);
 	stuff->count++;
 	cfustring_append(stuff->string, (char *)data);

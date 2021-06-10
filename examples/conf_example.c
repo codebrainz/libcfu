@@ -23,8 +23,8 @@ int main(int argc, char **argv) {
 	cfuconf_t *conf = NULL;
 	char *error = NULL;
 
-	argc = argc;
-	argv = argv;
+	(void)argc;
+	(void)argv;
 
 	if (cfuconf_parse_file(file_path, &conf, &error) < 0) {
 		fprintf(stderr, "Error loading conf file: %s\n", error);
